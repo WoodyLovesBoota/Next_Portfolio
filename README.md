@@ -18,9 +18,9 @@
 
 ## 기술 스택
 
-- `Typescript`, `React`
+- `Typescript`, `Next`
 - `Recoil`, `Firebase`, `Responsive Design`, `Framer`
-- `Prettier`, `Netlify`
+- `Prettier`, `Vercel`
 
 <br>
 
