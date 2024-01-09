@@ -2,12 +2,11 @@ import MainContent from "@/components/MainContent";
 import NavigationBar from "@/components/NavigationBar";
 import Seo from "@/components/Seo";
 import Services from "@/components/Service";
-import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import styled from "styled-components";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useRecoilState } from "recoil";
-import { IBlogState, IProjectDate, blogState, projectState, screenState } from "../atoms";
+import { IBlogData, IProjectData, screenState } from "../atoms";
 import Projects from "@/components/Projects";
 import Blog from "@/components/Blog";
 import Contact from "@/components/Contact";
@@ -30,7 +29,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 };
 
-const Home = ({ data }: { data: { projects: IProjectDate[]; blogs: IBlogState[] }[] }) => {
+const Home = ({ data }: { data: { projects: IProjectData[]; blogs: IBlogData[] }[] }) => {
   const mobileMatch = useMediaQuery("(max-width:745px)");
   const midMatch = useMediaQuery("(max-width:1200px)");
   const [screen, setScreen] = useRecoilState(screenState);
@@ -105,20 +104,3 @@ const Wrapper = styled.div`
   width: 100vw;
   background-color: white;
 `;
-
-interface IMovie {
-  adult: boolean;
-  backdrop_path: string;
-  genre_ids: number[];
-  id: number;
-  original_language: string;
-  original_title: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  release_date: string;
-  title: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
-}
