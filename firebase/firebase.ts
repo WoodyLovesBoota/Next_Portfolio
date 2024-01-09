@@ -16,7 +16,7 @@ let app;
 if (!getApps().length) {
   app = initializeApp(firebaseConfig);
 } else {
-  app = getApps()[0]; // 이미 초기화된 앱 사용
+  app = getApps()[0];
 }
 const firestore = getFirestore(app);
 

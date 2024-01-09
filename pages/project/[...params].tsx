@@ -1,66 +1,72 @@
 import { useRouter } from "next/router";
-import { PathMatch, useMatch, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
 
 import ArrowSmall from "../../components/assets/arrowsmall.svg";
 import Arrow from "../../components/assets/arrowbig.svg";
 import AngleR from "../../components/assets/anglearrowright.svg";
 import AngleL from "../../components/assets/anglearrowleft.svg";
 
-// import NavigationBar from "../../Components/PortfolioNavigationBar";
-// import Footer from "../../Components/Footer";
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import Seo from "@/components/Seo";
+import PortfolioNavigationBar from "@/components/PortfolioNavigationBar";
+import Footer from "@/components/Footer";
 
-import { languageState, projectState, IProjectDate } from "../../atoms";
+import { GetServerSideProps } from "next";
+
+import { languageState, IProjectData, IBlogData } from "../../atoms";
 import { months } from "../../utils";
 import Link from "next/link";
-import { blogState, screenState } from "../../atoms";
-import { firebaseDB } from "../../firebase/firebase";
-import { collection, onSnapshot } from "firebase/firestore";
 
-const Detail = ({ params }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+import { firestore } from "../../firebase/firebaseAdmin";
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const snapshot = await firestore.collection("portfolio").get();
+  const data = snapshot.docs.map((doc) => {
+    return Object.assign(doc.data(), { id: doc.id });
+  });
+
+  return {
+    props: {
+      data,
+    },
+  };
+};
+
+const Detail = ({ data }: { data: { projects: IProjectData[]; blogs: IBlogData[] }[] }) => {
   const router = useRouter();
   const [title, ind] = router.query.params || [];
-  // const Number(ind) = router.query.index || "";
   const [isRight, setIsRight] = useState(1);
   const [index, setIndex] = useState(0);
-  const [sorted, setSorted] = useState<IProjectDate[]>([]);
+  const [sorted, setSorted] = useState<IProjectData[]>([]);
   const isEng = useRecoilValue(languageState);
-  const [screen, setScreen] = useRecoilState(screenState);
-  const [projectData, setProjectData] = useState<IProjectDate[]>([]);
-  const [blogData, setBlogDate] = useRecoilState(blogState);
-  const [isLoading, setIsLoading] = useState(true);
+  const [leaving, setLeaving] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(firebaseDB, "portfolio"), (snapshot) => {
-      const postsArr = snapshot.docs.map((eachDoc) => {
-        return Object.assign(eachDoc.data(), { id: eachDoc.id });
-      });
-      setProjectData(postsArr && postsArr[0] && postsArr[0]["projects"]);
-      setBlogDate(postsArr && postsArr[0] && postsArr[0]["blogs"]);
-      setIsLoading(false);
-    });
-    console.log("read");
-    return () => unsubscribe();
-  }, []);
-
-  useEffect(() => {
-    const temp = [...projectData];
+    const temp = [...data[0].projects];
     temp.sort((a, b) => a.index - b.index);
     setSorted(temp);
-  }, [projectData]);
+  }, [data]);
 
   const increaseIndex = () => {
+    if (leaving) return;
+    toggleLeaving();
     setIsRight(1);
-    sorted && setIndex((prev) => (prev === sorted[Number(ind)].image.length - 1 ? 0 : prev + 1));
+    sorted &&
+      setIndex((prev) => (prev === sorted[Number(ind) - 1].image.length - 1 ? 0 : prev + 1));
   };
 
   const decreaseIndex = () => {
+    if (leaving) return;
+    toggleLeaving();
     setIsRight(-1);
-    sorted && setIndex((prev) => (prev === 0 ? sorted[Number(ind)].image.length - 1 : prev - 1));
+    sorted &&
+      setIndex((prev) => (prev === 0 ? sorted[Number(ind) - 1].image.length - 1 : prev - 1));
+  };
+
+  const toggleLeaving = () => {
+    setLeaving((prev) => !prev);
   };
 
   useEffect(() => {
@@ -70,10 +76,11 @@ const Detail = ({ params }: InferGetServerSidePropsType<typeof getServerSideProp
 
   return (
     <Wrapper>
-      {/* <NavigationBar /> */}
+      <PortfolioNavigationBar />
+      <Seo title={title} />
       <Container>
         <Header>
-          <Link href={`/`}>
+          <Link href={`/`} scroll={false}>
             <ViewLink variants={hoverTargetBar} animate="animate" whileHover={"hover"}>
               <Ment variants={hoverOverVar}>
                 <PrevArrowWrapper>
@@ -89,7 +96,7 @@ const Detail = ({ params }: InferGetServerSidePropsType<typeof getServerSideProp
               </Hidden>
             </ViewLink>
           </Link>
-          <Link href={sorted[Number(ind)]?.github || "/"} target="_blank">
+          <Link href={sorted[Number(ind) - 1]?.github || "/"} target="_blank">
             <ViewLink variants={hoverTargetBar} animate="animate" whileHover={"hover"}>
               <Ment variants={hoverOverVar}>
                 VISIT GITHUB
@@ -108,8 +115,8 @@ const Detail = ({ params }: InferGetServerSidePropsType<typeof getServerSideProp
             <SlideButtonL onClick={decreaseIndex}>
               <AngleL />
             </SlideButtonL>
-            <AnimatePresence custom={isRight}>
-              {sorted[Number(ind)]?.image.map((e, i) => (
+            <AnimatePresence custom={isRight} onExitComplete={toggleLeaving}>
+              {sorted[Number(ind) - 1]?.image.map((e, i) => (
                 <Card
                   custom={isRight}
                   variants={index === i ? cardVar : noVar}
@@ -117,17 +124,17 @@ const Detail = ({ params }: InferGetServerSidePropsType<typeof getServerSideProp
                   animate={isRight ? "animate" : "animateWhenLeft"}
                   exit={"exit"}
                   key={index === i ? i + "boxImage" : i + "no"}
-                  bgphoto={`url(${sorted[Number(ind)]?.image[i]})`}
+                  bgphoto={`url(${sorted[Number(ind) - 1]?.image[i]})`}
                 >
-                  <LinktoProject href={sorted[Number(ind)]?.demo} target="_blank"></LinktoProject>
+                  <LinktoProject href={sorted[Number(ind) - 1]?.demo} target="_blank" />
                 </Card>
               ))}
             </AnimatePresence>
             <SlideButton onClick={increaseIndex}>
               <AngleR />
             </SlideButton>
-            <Dots num={sorted[Number(ind)]?.image.length}>
-              {sorted[Number(ind)]?.image.map((e, i) =>
+            <Dots num={sorted[Number(ind) - 1]?.image.length}>
+              {sorted[Number(ind) - 1]?.image.map((e, i) =>
                 i === index ? <NowDot key={i}></NowDot> : <Dot key={i}></Dot>
               )}
             </Dots>
@@ -139,29 +146,29 @@ const Detail = ({ params }: InferGetServerSidePropsType<typeof getServerSideProp
             <Skills>
               <SkillTitle>Date:</SkillTitle>
               <SkillList>
-                {sorted[Number(ind)]?.date[0].slice(0, 4) +
+                {sorted[Number(ind) - 1]?.date[0].slice(0, 4) +
                   "." +
-                  sorted[Number(ind)]?.date[0].slice(4) ===
-                sorted[Number(ind)]?.date[1].slice(0, 4) +
+                  sorted[Number(ind) - 1]?.date[0].slice(4) ===
+                sorted[Number(ind) - 1]?.date[1].slice(0, 4) +
                   "." +
-                  sorted[Number(ind)]?.date[1].slice(4) ? (
+                  sorted[Number(ind) - 1]?.date[1].slice(4) ? (
                   <Skill>
-                    {months[Number(sorted[Number(ind)]?.date[0].slice(4)) - 1] +
+                    {months[Number(sorted[Number(ind) - 1]?.date[0].slice(4)) - 1] +
                       ", " +
-                      sorted[Number(ind)]?.date[0].slice(0, 4)}
+                      sorted[Number(ind) - 1]?.date[0].slice(0, 4)}
                   </Skill>
                 ) : (
                   <>
                     <Skill>
-                      {months[Number(sorted[Number(ind)]?.date[0].slice(4)) - 1] +
+                      {months[Number(sorted[Number(ind) - 1]?.date[0].slice(4)) - 1] +
                         ", " +
-                        sorted[Number(ind)]?.date[0].slice(0, 4)}
+                        sorted[Number(ind) - 1]?.date[0].slice(0, 4)}
                     </Skill>
                     <Divider>-</Divider>
                     <Skill>
-                      {months[Number(sorted[Number(ind)]?.date[1].slice(4)) - 1] +
+                      {months[Number(sorted[Number(ind) - 1]?.date[1].slice(4)) - 1] +
                         ", " +
-                        sorted[Number(ind)]?.date[1].slice(0, 4)}
+                        sorted[Number(ind) - 1]?.date[1].slice(0, 4)}
                     </Skill>
                   </>
                 )}
@@ -170,22 +177,24 @@ const Detail = ({ params }: InferGetServerSidePropsType<typeof getServerSideProp
             <Skills>
               <SkillTitle>Skills:</SkillTitle>
               <SkillList>
-                <Skill>{sorted[Number(ind)]?.skill}</Skill>
+                <Skill>{sorted[Number(ind) - 1]?.skill}</Skill>
               </SkillList>
             </Skills>
             <Skills>
               <SkillTitle>Functions:</SkillTitle>
               <SkillList>
-                <Skill>
-                  {isEng ? sorted[Number(ind)]?.functionsEng : sorted[Number(ind)]?.functions}
-                </Skill>
+                <Func>
+                  {isEng
+                    ? sorted[Number(ind) - 1]?.functionsEng
+                    : sorted[Number(ind) - 1]?.functions}
+                </Func>
               </SkillList>
             </Skills>
           </Column>
           <Column>
             <RowTitle>Description</RowTitle>
             <Description>
-              {isEng ? sorted[Number(ind)]?.detail : sorted[Number(ind)]?.detailKor}
+              {isEng ? sorted[Number(ind) - 1]?.detail : sorted[Number(ind) - 1]?.detailKor}
             </Description>
           </Column>
         </DescriptionRow>
@@ -196,27 +205,28 @@ const Detail = ({ params }: InferGetServerSidePropsType<typeof getServerSideProp
           variants={hoverVar}
           animate="animate"
           whileHover={"hover"}
-          href={sorted[Number(ind)]?.demo}
+          href={sorted[Number(ind) - 1]?.demo}
           target="_blank"
         >
           VISIT WEBSITE
           <UnderBar variants={hoverUnderBarVar} />
         </Button>
         <PageButtons>
-          {Number(ind) !== 0 && (
-            <Link
-              href={{
-                pathname: `/project/${sorted[Number(ind) - 1]?.name}/${
-                  sorted[Number(ind) - 1]?.index
-                }`,
-                query: {
-                  title: sorted[Number(ind) - 1]?.name,
-                  image: sorted[Number(ind) - 1]?.image[0],
-                  index: sorted[Number(ind) - 1]?.index,
-                },
-              }}
-            >
-              <PageButton variants={hoverTargetBar} animate="animate" whileHover={"hover"}>
+          {Number(ind) - 1 !== 0 && (
+            <PageButton variants={hoverTargetBar} animate="animate" whileHover={"hover"}>
+              <Link
+                href={{
+                  pathname: `/project/${sorted[Number(ind) - 1 - 1]?.name}/${
+                    sorted[Number(ind) - 1 - 1]?.index
+                  }`,
+                  query: {
+                    title: sorted[Number(ind) - 1 - 1]?.name,
+                    image: sorted[Number(ind) - 1 - 1]?.image[0],
+                    index: sorted[Number(ind) - 1 - 1]?.index,
+                  },
+                }}
+                scroll={false}
+              >
                 <ButtonMent variants={hoverOverVar}>
                   <PrevArrowWrapper>
                     <ArrowSmall />
@@ -229,23 +239,24 @@ const Detail = ({ params }: InferGetServerSidePropsType<typeof getServerSideProp
                   </PrevArrowWrapper>
                   Prev
                 </ButtonHidden>
-              </PageButton>
-            </Link>
+              </Link>
+            </PageButton>
           )}
-          {Number(ind) !== sorted.length - 1 && (
-            <Link
-              href={{
-                pathname: `/project/${sorted[Number(ind) + 1]?.name}/${
-                  sorted[Number(ind) + 1]?.index
-                }`,
-                query: {
-                  title: sorted[Number(ind) + 1]?.name,
-                  image: sorted[Number(ind) + 1]?.image[0],
-                  index: sorted[Number(ind) + 1]?.index,
-                },
-              }}
-            >
-              <NextButton variants={hoverTargetBar} animate="animate" whileHover={"hover"}>
+          {Number(ind) - 1 !== sorted.length - 1 && (
+            <NextButton variants={hoverTargetBar} animate="animate" whileHover={"hover"}>
+              <Link
+                href={{
+                  pathname: `/project/${sorted[Number(ind) - 1 + 1]?.name}/${
+                    sorted[Number(ind) - 1 + 1]?.index
+                  }`,
+                  query: {
+                    title: sorted[Number(ind) - 1 + 1]?.name,
+                    image: sorted[Number(ind) - 1 + 1]?.image[0],
+                    index: sorted[Number(ind) - 1 + 1]?.index,
+                  },
+                }}
+                scroll={false}
+              >
                 <ButtonMent variants={hoverOverVar}>
                   Next
                   <ArrowWrapper>
@@ -258,25 +269,17 @@ const Detail = ({ params }: InferGetServerSidePropsType<typeof getServerSideProp
                     <ArrowSmall />
                   </ArrowWrapper>
                 </ButtonHidden>
-              </NextButton>
-            </Link>
+              </Link>
+            </NextButton>
           )}
         </PageButtons>
       </Container>
-      {/* <Footer /> */}
+      <Footer />
     </Wrapper>
   );
 };
 
 export default Detail;
-
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  return {
-    props: {
-      params,
-    },
-  };
-};
 
 const Wrapper = styled.div`
   width: 100vw;
@@ -509,6 +512,13 @@ const Skill = styled.h2`
   line-height: 2;
   flex-wrap: wrap;
   text-transform: uppercase;
+`;
+
+const Func = styled.h2`
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 2;
+  flex-wrap: wrap;
 `;
 
 const Description = styled.h2`

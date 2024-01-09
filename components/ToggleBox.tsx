@@ -1,14 +1,12 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { useRecoilState } from "recoil";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 
 import Plus from "./assets/plus.svg";
 import Minus from "./assets/minus.svg";
 
 import { languageState } from "../atoms";
-
-// import "../public/fonts/font.css";
 
 const ToggleBox = ({ title }: { title: number }) => {
   const [isOpen, setIsOpen] = useState(false);

@@ -85,7 +85,7 @@ const NavigationBar = ({
   }, [scrollY]);
 
   return (
-    <Wrapper istop={scrollY === 0}>
+    <Wrapper istop={(scrollY === 0).toString()}>
       <Logo onClick={onMainClick}>
         <motion.svg
           width="73"
@@ -190,7 +190,6 @@ const NavigationBar = ({
         <Toggles>
           {isEng ? (
             <Lang
-              isnow={isEng}
               onMouseOver={() => {
                 setIsToggleOpen(true);
               }}
@@ -213,7 +212,7 @@ const NavigationBar = ({
                     initial="initial"
                     animate="animate"
                     exit={"exit"}
-                    istop={scrollY === 0}
+                    istop={(scrollY === 0).toString()}
                   >
                     <LangChoicedBar
                       onClick={() => {
@@ -238,7 +237,7 @@ const NavigationBar = ({
                     initial="initial"
                     animate="animate"
                     exit={"exit"}
-                    istop={scrollY === 0}
+                    istop={(scrollY === 0).toString()}
                   >
                     <LangChoicedBar
                       onClick={() => {
@@ -260,7 +259,6 @@ const NavigationBar = ({
             </Lang>
           ) : (
             <Lang
-              isnow={!isEng}
               onMouseOver={() => {
                 setIsToggleOpen(true);
               }}
@@ -283,7 +281,7 @@ const NavigationBar = ({
                     initial="initial"
                     animate="animate"
                     exit={"exit"}
-                    istop={scrollY === 0}
+                    istop={(scrollY === 0).toString()}
                   >
                     <LangChoicedBar
                       onClick={() => {
@@ -308,7 +306,7 @@ const NavigationBar = ({
                     initial="initial"
                     animate="animate"
                     exit={"exit"}
-                    istop={scrollY === 0}
+                    istop={(scrollY === 0).toString()}
                   >
                     <LangChoicedBar
                       onClick={() => {
@@ -337,13 +335,13 @@ const NavigationBar = ({
 
 export default NavigationBar;
 
-const Wrapper = styled.div<{ istop: boolean }>`
+const Wrapper = styled.div<{ istop: string }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   position: fixed;
-  padding: ${(props) => (props.istop ? "24px 30px" : "17px 30px")};
+  padding: ${(props) => (props.istop === "true" ? "24px 30px" : "17px 30px")};
   background-color: white;
   top: 0;
   z-index: 105;
@@ -359,9 +357,9 @@ const Wrapper = styled.div<{ istop: boolean }>`
   }
 `;
 
-const ToggleList = styled(motion.div)<{ istop: boolean }>`
+const ToggleList = styled(motion.div)<{ istop: string }>`
   position: absolute;
-  top: ${(props) => (props.istop ? "70px" : "60px")};
+  top: ${(props) => (props.istop === "true" ? "70px" : "60px")};
   right: 0px;
   top: 25px;
   width: 240px;
@@ -443,7 +441,7 @@ const Toggles = styled.div`
   height: 100%;
 `;
 
-const Lang = styled.div<{ isnow: boolean }>`
+const Lang = styled.div`
   cursor: pointer;
   display: flex;
   align-items: center;

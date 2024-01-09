@@ -1,38 +1,25 @@
 import styled from "styled-components";
-import { forwardRef, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { motion, useAnimation } from "framer-motion";
 import { useRecoilState } from "recoil";
-
-import { languageState, projectState, IProjectDate } from "../atoms";
+import { languageState, IProjectData } from "../atoms";
 
 import ArrowSmall from "./assets/arrowsmall.svg";
 import Link from "next/link";
 
-const Projects = forwardRef<HTMLDivElement>((props, ref) => {
+const Projects = ({ projects }: { projects: IProjectData[] }) => {
   const [isHover, setIsHover] = useState(-1);
   const [scrollY, setScrollY] = useState(0);
-  const [sorted, setSorted] = useState<IProjectDate[]>([]);
-
-  const [projectData, setProjectData] = useRecoilState(projectState);
+  const [sorted, setSorted] = useState<IProjectData[]>([]);
+  const [projectData, setProjectData] = useState<IProjectData[]>([]);
   const [isEng, setIsEng] = useRecoilState(languageState);
 
-  // const navigate = useNavigate();
   const controls = useAnimation();
-
-  const onProjectClick = (name: string) => {
-    // navigate(`/project/${name}`);
-  };
 
   useEffect(() => {
     const handleScroll = () => {
       setScrollY(window.scrollY);
     };
-
-    const temp = projectData && [...projectData] ? [...projectData] : [];
-    temp.sort((a, b) => a.index - b.index);
-
-    setSorted(temp);
 
     window.addEventListener("scroll", handleScroll);
     return () => {
@@ -41,11 +28,17 @@ const Projects = forwardRef<HTMLDivElement>((props, ref) => {
   }, []);
 
   useEffect(() => {
+    const temp = [...projects];
+    temp.sort((a, b) => a.index - b.index);
+    setSorted(temp);
+  }, [projects]);
+
+  useEffect(() => {
     controls.start({ y: -10 + scrollY / 40 });
   }, [scrollY, controls]);
 
   return (
-    <Wrapper ref={ref}>
+    <Wrapper>
       <Container>
         <Header>
           <Subject>PORTFOLIO</Subject>
@@ -83,6 +76,7 @@ const Projects = forwardRef<HTMLDivElement>((props, ref) => {
                           index: project.index,
                         },
                       }}
+                      scroll={false}
                       // as={`/project/${project.name}`}
                     >
                       <ProjectTitleL>
@@ -102,7 +96,6 @@ const Projects = forwardRef<HTMLDivElement>((props, ref) => {
                       </ProjectTitleL>
                     </Link>
                   </ProjectBox>
-
                   <ProjectPhotoFrame>
                     <Link
                       href={{
@@ -113,22 +106,19 @@ const Projects = forwardRef<HTMLDivElement>((props, ref) => {
                           index: project.index,
                         },
                       }}
+                      scroll={false}
                       // as={`/project/${project.name}`}
                     >
                       <ProjectPhoto
                         variants={normalVar}
                         animate="animate"
                         whileHover={"hover"}
-                        onClick={() => {
-                          onProjectClick(project.name);
-                        }}
                         onMouseOver={() => {
                           setIsHover(index);
                         }}
                         onMouseLeave={() => {
                           setIsHover(-1);
                         }}
-                        isnow={isHover === index}
                         bgphoto={`url(${project.image[0]})`}
                       />
                     </Link>
@@ -146,22 +136,19 @@ const Projects = forwardRef<HTMLDivElement>((props, ref) => {
                           index: project.index,
                         },
                       }}
+                      scroll={false}
                       // as={`/project/${project.name}`}
                     >
                       <ProjectPhoto
                         variants={normalVar}
                         animate="animate"
                         whileHover={"hover"}
-                        onClick={() => {
-                          onProjectClick(project.name);
-                        }}
                         onMouseOver={() => {
                           setIsHover(index);
                         }}
                         onMouseLeave={() => {
                           setIsHover(-1);
                         }}
-                        isnow={isHover === index}
                         bgphoto={`url(${project.image[0]})`}
                       />
                     </Link>
@@ -176,13 +163,11 @@ const Projects = forwardRef<HTMLDivElement>((props, ref) => {
                           index: project.index,
                         },
                       }}
+                      scroll={false}
                       // as={`/project/${project.name}`}
                     >
                       <ProjectTitleR>
                         <Mention
-                          onClick={() => {
-                            onProjectClick(project.name);
-                          }}
                           onMouseOver={() => {
                             setIsHover(index);
                           }}
@@ -205,7 +190,7 @@ const Projects = forwardRef<HTMLDivElement>((props, ref) => {
       </Container>
     </Wrapper>
   );
-});
+};
 
 export default Projects;
 
@@ -447,7 +432,7 @@ const ProjectPhotoFrame = styled(motion.div)`
   }
 `;
 
-const ProjectPhoto = styled(motion.div)<{ bgphoto: string; isnow: boolean }>`
+const ProjectPhoto = styled(motion.div)<{ bgphoto: string }>`
   background: ${(props) => props.bgphoto};
   background-position: center center;
   background-size: cover;

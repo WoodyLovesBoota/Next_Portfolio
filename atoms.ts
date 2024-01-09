@@ -5,46 +5,12 @@ export const languageState = atom<boolean>({
   default: false,
 });
 
-export const projectState = atom<IProjectDate[]>({
-  key: "projectState",
-  default: [
-    {
-      name: "",
-      skill: "",
-      image: [""],
-      demo: "",
-      github: "",
-      detail: "",
-      detailKor: "",
-      subtitle: "",
-      date: [""],
-      subtitleKor: "",
-      functions: "",
-      functionsEng: "",
-      index: 0,
-    },
-  ],
-});
-
-export const blogState = atom<IBlogState[]>({
-  key: "blogState",
-  default: [
-    {
-      title: "",
-      date: "",
-      link: "",
-      image: "",
-      titleEng: "",
-    },
-  ],
-});
-
 export const screenState = atom<number>({
   key: "screenWidth",
   default: 0,
 });
 
-export interface IProjectDate {
+export interface IProjectData {
   name: string;
   skill: string;
   image: string[];
@@ -60,7 +26,7 @@ export interface IProjectDate {
   index: number;
 }
 
-export interface IBlogState {
+export interface IBlogData {
   title: string;
   date: string;
   link: string;
