@@ -72,6 +72,9 @@ const Detail = ({ data }: { data: { projects: IProjectData[]; blogs: IBlogData[]
   useEffect(() => {
     window.scrollTo(0, 0);
     setIndex(0);
+    setTimeout(() => {
+      setLeaving(false);
+    }, [1000]);
   }, [title]);
 
   return (
