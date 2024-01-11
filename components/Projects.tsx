@@ -63,7 +63,7 @@ const Projects = ({ projects }: { projects: IProjectData[] }) => {
         <SecondTitle>PROJECTS</SecondTitle>
         <Main>
           {sorted &&
-            sorted.map((project, index) =>
+            sorted.slice(0, 4).map((project, index) =>
               index % 2 === 1 ? (
                 <RowR animate={controls} key={project.index + "R"}>
                   <ProjectBox>

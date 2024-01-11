@@ -46,7 +46,7 @@ const Detail = ({ data }: { data: { projects: IProjectData[]; blogs: IBlogData[]
   useEffect(() => {
     const temp = [...data[0].projects];
     temp.sort((a, b) => a.index - b.index);
-    setSorted(temp);
+    setSorted(temp.slice(0, 4));
   }, [data]);
 
   const increaseIndex = () => {
