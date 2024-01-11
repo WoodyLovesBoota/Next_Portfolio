@@ -224,7 +224,6 @@ const Detail = ({ data }: { data: { projects: IProjectData[]; blogs: IBlogData[]
                   }`,
                   query: {
                     title: sorted[Number(ind) - 1 - 1]?.name,
-                    image: sorted[Number(ind) - 1 - 1]?.image[0],
                     index: sorted[Number(ind) - 1 - 1]?.index,
                   },
                 }}
@@ -254,7 +253,6 @@ const Detail = ({ data }: { data: { projects: IProjectData[]; blogs: IBlogData[]
                   }`,
                   query: {
                     title: sorted[Number(ind) - 1 + 1]?.name,
-                    image: sorted[Number(ind) - 1 + 1]?.image[0],
                     index: sorted[Number(ind) - 1 + 1]?.index,
                   },
                 }}
