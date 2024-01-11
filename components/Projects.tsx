@@ -72,12 +72,10 @@ const Projects = ({ projects }: { projects: IProjectData[] }) => {
                         pathname: `/project/${project.name}/${project.index}`,
                         query: {
                           title: project.name,
-                          image: project.image[0],
                           index: project.index,
                         },
                       }}
                       scroll={false}
-                      // as={`/project/${project.name}`}
                     >
                       <ProjectTitleL>
                         <MentionR
@@ -102,12 +100,10 @@ const Projects = ({ projects }: { projects: IProjectData[] }) => {
                         pathname: `/project/${project.name}/${project.index}`,
                         query: {
                           title: project.name,
-                          image: project.image[0],
                           index: project.index,
                         },
                       }}
                       scroll={false}
-                      // as={`/project/${project.name}`}
                     >
                       <ProjectPhoto
                         variants={normalVar}
@@ -132,12 +128,10 @@ const Projects = ({ projects }: { projects: IProjectData[] }) => {
                         pathname: `/project/${project.name}/${project.index}`,
                         query: {
                           title: project.name,
-                          image: project.image[0],
                           index: project.index,
                         },
                       }}
                       scroll={false}
-                      // as={`/project/${project.name}`}
                     >
                       <ProjectPhoto
                         variants={normalVar}
@@ -159,12 +153,10 @@ const Projects = ({ projects }: { projects: IProjectData[] }) => {
                         pathname: `/project/${project.name}/${project.index}`,
                         query: {
                           title: project.name,
-                          image: project.image[0],
                           index: project.index,
                         },
                       }}
                       scroll={false}
-                      // as={`/project/${project.name}`}
                     >
                       <ProjectTitleR>
                         <Mention
