@@ -74,7 +74,7 @@ const Detail = ({ data }: { data: { projects: IProjectData[]; blogs: IBlogData[]
     setIndex(0);
     setTimeout(() => {
       setLeaving(false);
-    }, [1000]);
+    }, 1000);
   }, [title]);
 
   return (
