@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useState } from "react";
+import { forwardRef } from "react";
 
 const PortfolioSpot = forwardRef<HTMLDivElement>((props, ref) => {
   return <div ref={ref}></div>;

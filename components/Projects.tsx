@@ -11,7 +11,6 @@ const Projects = ({ projects }: { projects: IProjectData[] }) => {
   const [isHover, setIsHover] = useState(-1);
   const [scrollY, setScrollY] = useState(0);
   const [sorted, setSorted] = useState<IProjectData[]>([]);
-  const [projectData, setProjectData] = useState<IProjectData[]>([]);
   const [isEng, setIsEng] = useRecoilState(languageState);
 
   const controls = useAnimation();

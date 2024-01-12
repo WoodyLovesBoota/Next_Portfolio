@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { motion, useAnimation } from "framer-motion";
 import { useRecoilValue } from "recoil";
@@ -9,7 +9,6 @@ import ArrowSmall from "./assets/arrowsmall.svg";
 
 const Blog = ({ blogs }: { blogs: IBlogData[] }) => {
   const isEng = useRecoilValue(languageState);
-  const [blogData, setBlogData] = useState<IBlogData[]>([]);
   const [scrollY, setScrollY] = useState(0);
   const [sorted, setSorted] = useState<IBlogData[]>([]);
 
