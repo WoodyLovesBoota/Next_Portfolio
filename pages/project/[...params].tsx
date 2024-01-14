@@ -774,7 +774,7 @@ const Hidden = styled(motion.h2)`
 const UnderBar = styled(motion.div)`
   background-color: black;
   width: 100%;
-  height: 5px;
+  height: 2px;
   border-radius: 100px;
 `;
 
