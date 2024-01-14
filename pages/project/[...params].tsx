@@ -71,7 +71,7 @@ const Detail = ({ data }: { data: { projects: IProjectData[]; blogs: IBlogData[]
   };
 
   useEffect(() => {
-    // window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
     setIndex(0);
     setTimeout(() => {
       setLeaving(false);
@@ -128,8 +128,14 @@ const Detail = ({ data }: { data: { projects: IProjectData[]; blogs: IBlogData[]
                   animate={isRight ? "animate" : "animateWhenLeft"}
                   exit={"exit"}
                   key={index === i ? i + "boxImage" : i + "no"}
-                  bgphoto={`url(${sorted[Number(ind) - 1]?.image[i]})`}
                 >
+                  <Image
+                    src={sorted[Number(ind) - 1]?.image[i]}
+                    alt="Description"
+                    width={700}
+                    height={400}
+                    style={{ width: "100%", height: "100%" }}
+                  />
                   <LinktoProject href={sorted[Number(ind) - 1]?.demo} target="_blank" />
                 </Card>
               ))}
@@ -401,6 +407,9 @@ const LinktoProject = styled.a`
   width: 80%;
   height: 80%;
   cursor: pointer;
+  position: absolute;
+  top: 10%;
+  left: 10%;
 `;
 
 const Divider = styled.h2`
@@ -424,12 +433,9 @@ const Box = styled.div`
   }
 `;
 
-const Card = styled(motion.div)<{ bgphoto: string }>`
+const Card = styled(motion.div)`
   width: 100%;
   height: 810px;
-  background: ${(props) => props.bgphoto};
-  background-position: center;
-  background-size: cover;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.03);
   position: absolute;
   top: 0;

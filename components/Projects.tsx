@@ -6,6 +6,7 @@ import { languageState, IProjectData } from "../atoms";
 
 import ArrowSmall from "./assets/arrowsmall.svg";
 import Link from "next/link";
+import Image from "next/image";
 
 const Projects = ({ projects }: { projects: IProjectData[] }) => {
   const [isHover, setIsHover] = useState(-1);
@@ -114,8 +115,15 @@ const Projects = ({ projects }: { projects: IProjectData[] }) => {
                         onMouseLeave={() => {
                           setIsHover(-1);
                         }}
-                        bgphoto={`url(${project.image[0]})`}
-                      />
+                      >
+                        <Image
+                          src={project.image[0]}
+                          alt="Description"
+                          width={700}
+                          height={500}
+                          style={{ width: "100%", height: "100%", borderRadius: "4px" }}
+                        />
+                      </ProjectPhoto>
                     </Link>
                   </ProjectPhotoFrame>
                 </RowR>
@@ -142,8 +150,15 @@ const Projects = ({ projects }: { projects: IProjectData[] }) => {
                         onMouseLeave={() => {
                           setIsHover(-1);
                         }}
-                        bgphoto={`url(${project.image[0]})`}
-                      />
+                      >
+                        <Image
+                          src={project.image[0]}
+                          alt="Description"
+                          width={700}
+                          height={500}
+                          style={{ width: "100%", height: "100%", borderRadius: "4px" }}
+                        />
+                      </ProjectPhoto>
                     </Link>
                   </ProjectPhotoFrame>
                   <ProjectBox>
@@ -423,10 +438,7 @@ const ProjectPhotoFrame = styled(motion.div)`
   }
 `;
 
-const ProjectPhoto = styled(motion.div)<{ bgphoto: string }>`
-  background: ${(props) => props.bgphoto};
-  background-position: center center;
-  background-size: cover;
+const ProjectPhoto = styled(motion.div)`
   width: 100%;
   height: 100%;
   cursor: pointer;
