@@ -846,10 +846,10 @@ const hoverUnderBarVar = {
 
 const cardVar = {
   initial: (custom: number) => ({ x: custom === 1 ? "100%" : "-100%" }),
-  animate: { x: 0, opacity: 1, transition: { type: "tween", duration: 0.7 } },
+  animate: { x: 0, opacity: 1, transition: { type: "tween", duration: 0.3, ease: "easeInOut" } },
   exit: (custom: number) => ({
     x: custom === 1 ? "-100%" : "100%",
-    transition: { type: "tween", duration: 0.7 },
+    transition: { type: "tween", duration: 0.3, ease: "easeInOut" },
   }),
 };
 

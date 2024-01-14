@@ -66,7 +66,7 @@ const Projects = ({ projects }: { projects: IProjectData[] }) => {
             sorted.slice(0, 4).map((project, index) =>
               index % 2 === 1 ? (
                 <RowR animate={controls} key={project.index + "R"}>
-                  <ProjectBox>
+                  <ProjectBoxR>
                     <Link
                       href={{
                         pathname: `/project/${project.name}/${project.index}`,
@@ -93,7 +93,7 @@ const Projects = ({ projects }: { projects: IProjectData[] }) => {
                         </MentionR>
                       </ProjectTitleL>
                     </Link>
-                  </ProjectBox>
+                  </ProjectBoxR>
                   <ProjectPhotoFrame>
                     <Link
                       href={{
@@ -182,9 +182,9 @@ const Projects = ({ projects }: { projects: IProjectData[] }) => {
                           }}
                         >
                           <ProjectSpanR>{project.name}</ProjectSpanR>
-                          <ProjectDetail>
+                          <ProjectDetailR>
                             {isEng ? project.subtitle : project.subtitleKor}
-                          </ProjectDetail>
+                          </ProjectDetailR>
                         </Mention>
                       </ProjectTitleR>
                     </Link>
@@ -321,11 +321,26 @@ const RowR = styled(motion.div)`
   }
 `;
 
+const ProjectBoxR = styled.div`
+  width: 33%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  position: relative;
+  padding: 0 30px;
+  @media (max-width: 745px) {
+    padding: 0;
+    width: 100%;
+    justify-content: center;
+  }
+`;
 const ProjectBox = styled.div`
   width: 33%;
   height: 100%;
   display: flex;
   align-items: flex-end;
+  justify-content: flex-start;
   position: relative;
   padding: 0 30px;
   @media (max-width: 745px) {
@@ -358,7 +373,7 @@ const ProjectSpanL = styled.span`
   font-family: ClashGrotesk-Regular;
   font-size: 60px;
   text-transform: uppercase;
-  text-align: left;
+  text-align: right;
   line-height: 1;
   @media (max-width: 1080px) {
     font-size: 4.17vw;
@@ -374,7 +389,7 @@ const ProjectSpanR = styled.span`
   font-family: ClashGrotesk-Regular;
   font-size: 60px;
   text-transform: uppercase;
-  text-align: right;
+  text-align: left;
   line-height: 1;
   @media (max-width: 1080px) {
     font-size: 4.17vw;
@@ -385,11 +400,26 @@ const ProjectSpanR = styled.span`
   }
 `;
 
+const ProjectDetailR = styled.span`
+  z-index: 2;
+  font-size: 16px;
+  font-weight: 400;
+  margin-top: 20px;
+  text-align: left;
+  @media (max-width: 745px) {
+    text-align: center;
+  }
+`;
+
 const ProjectDetail = styled.span`
   z-index: 2;
   font-size: 16px;
   font-weight: 400;
   margin-top: 20px;
+  text-align: right;
+  @media (max-width: 745px) {
+    text-align: center;
+  }
 `;
 
 const MentionR = styled(motion.div)`
@@ -460,8 +490,8 @@ const Hidden = styled(motion.h2)`
 `;
 
 const normalVar = {
-  animate: { scale: 1.05, transition: { duration: 0.5, delay: 0.1 } },
-  hover: { scale: 1.0, transition: { duration: 1.5, delay: 0.1 } },
+  animate: { scale: 1.03, transition: { duration: 0.3, ease: "easeOut" } },
+  hover: { scale: 1.0, transition: { duration: 0.3, ease: "easeOut" } },
 };
 
 const hoverUnderVar = {
