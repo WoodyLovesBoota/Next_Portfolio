@@ -20,6 +20,7 @@ import { months } from "../../utils";
 import Link from "next/link";
 
 import { firestore } from "../../firebase/firebaseAdmin";
+import Image from "next/image";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const snapshot = await firestore.collection("portfolio").get();
@@ -70,7 +71,7 @@ const Detail = ({ data }: { data: { projects: IProjectData[]; blogs: IBlogData[]
   };
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    // window.scrollTo(0, 0);
     setIndex(0);
     setTimeout(() => {
       setLeaving(false);
@@ -143,7 +144,7 @@ const Detail = ({ data }: { data: { projects: IProjectData[]; blogs: IBlogData[]
             </Dots>
           </Box>
         </TitleRow>
-        <DescriptionRow>
+        <OverviewRow>
           <Column>
             <RowTitle>Project Details</RowTitle>
             <Skills>
@@ -195,11 +196,61 @@ const Detail = ({ data }: { data: { projects: IProjectData[]; blogs: IBlogData[]
             </Skills>
           </Column>
           <Column>
-            <RowTitle>Description</RowTitle>
+            <RowTitle>Overview</RowTitle>
             <Description>
               {isEng ? sorted[Number(ind) - 1]?.detail : sorted[Number(ind) - 1]?.detailKor}
             </Description>
           </Column>
+        </OverviewRow>
+        <DescriptionRow>
+          <DescTitle>Key Features</DescTitle>
+          <DescContainer>
+            {sorted[Number(ind) - 1]?.content.map((des) => (
+              <DescBox key={des.name}>
+                <DescName>{isEng ? des.nameEng : des.name}</DescName>
+                <DescMain>
+                  {des.img && (
+                    <DescImage>
+                      <Image
+                        src={des.img}
+                        alt="Description"
+                        width={700}
+                        height={500}
+                        style={{ width: "100%", height: "100%", borderRadius: "4px" }}
+                      />
+                    </DescImage>
+                  )}
+                  <DescContent withimg={des.img ? "true" : "false"}>
+                    {isEng ? des.descEng : des.desc}
+                  </DescContent>
+                </DescMain>
+              </DescBox>
+            ))}
+          </DescContainer>
+          <DescTitle>Problem & Solve</DescTitle>
+          <DescContainer>
+            {sorted[Number(ind) - 1]?.problem.map((des) => (
+              <DescBox key={des.name}>
+                <DescName>{isEng ? des.nameEng : des.name}</DescName>
+                <DescMain>
+                  {des.img && (
+                    <DescImage>
+                      <Image
+                        src={des.img}
+                        alt="Description"
+                        width={700}
+                        height={500}
+                        style={{ width: "100%", height: "100%", borderRadius: "4px" }}
+                      />
+                    </DescImage>
+                  )}
+                  <DescContent withimg={des.img ? "true" : "false"}>
+                    {isEng ? des.descEng : des.desc}
+                  </DescContent>
+                </DescMain>
+              </DescBox>
+            ))}
+          </DescContainer>
         </DescriptionRow>
         <BigArrowWrapper>
           <Arrow />
@@ -438,10 +489,34 @@ const Title = styled.h2`
   }
 `;
 
+const OverviewRow = styled.div`
+  display: flex;
+  margin-top: 100px;
+  justify-content: space-between;
+  margin-bottom: 150px;
+  width: 100%;
+
+  @media (max-width: 1500px) {
+    margin-top: 80px;
+  }
+
+  @media (max-width: 1080px) {
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-top: 50px;
+    margin-bottom: 0px;
+  }
+
+  @media (max-width: 745px) {
+    margin-bottom: 0px;
+    margin-top: 40px;
+  }
+`;
+
 const DescriptionRow = styled.div`
   display: flex;
-  margin-top: calc(100px);
-  justify-content: space-between;
+  flex-direction: column;
+  margin-top: 100px;
   margin-bottom: 150px;
   width: 100%;
 
@@ -458,6 +533,67 @@ const DescriptionRow = styled.div`
   @media (max-width: 745px) {
     margin-bottom: 40px;
     margin-top: 40px;
+  }
+`;
+
+const DescTitle = styled.h2`
+  color: gray;
+  font-size: 18px;
+  font-weight: 400;
+  margin-bottom: 30px;
+`;
+
+const DescContainer = styled.div``;
+
+const DescBox = styled.div`
+  margin-bottom: 100px;
+  @media (max-width: 1080px) {
+    margin-bottom: 80px;
+  }
+
+  @media (max-width: 745px) {
+    margin-bottom: 60px;
+  }
+`;
+
+const DescMain = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  @media (max-width: 1180px) {
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+`;
+
+const DescName = styled.h2`
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 18px;
+`;
+
+const DescImage = styled(motion.div)`
+  position: relative;
+  width: 700px;
+  height: 394px;
+  border-radius: 4px;
+  box-shadow: 2px 25px 40px 0 rgba(0, 0, 0, 0.15);
+  @media (max-width: 1180px) {
+    width: 100%;
+    height: calc((100vw - 60px) * 9 / 16);
+    margin-bottom: 20px;
+  }
+`;
+
+const DescContent = styled.h2<{ withimg: string }>`
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.8;
+  margin-left: ${(props) => (props.withimg === "true" ? "30px" : 0)};
+  width: ${(props) => (props.withimg === "true" ? "calc(100% - 670px);" : "100%")};
+  @media (max-width: 1180px) {
+    width: 100%;
+    margin-left: 0;
   }
 `;
 

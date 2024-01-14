@@ -11,6 +11,9 @@ const nextConfig = {
     });
     return config;
   },
+  images: {
+    domains: ["firebasestorage.googleapis.com"],
+  },
 };
 
 module.exports = nextConfig;

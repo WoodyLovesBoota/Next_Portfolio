@@ -25,7 +25,7 @@ const PortfolioNavigationBar = () => {
   }, []);
 
   return (
-    <Wrapper istop={scrollY === 0}>
+    <Wrapper istop={scrollY === 0 ? "true" : "false"}>
       <Link href={"/"}>
         <Logo>
           <motion.svg
@@ -63,7 +63,6 @@ const PortfolioNavigationBar = () => {
       <Toggles>
         {isEng ? (
           <Lang
-            isnow={isEng}
             onMouseOver={() => {
               setIsToggleOpen(true);
             }}
@@ -80,7 +79,7 @@ const PortfolioNavigationBar = () => {
             </Icon>
             {isToggleOpen &&
               (isEng ? (
-                <ToggleList istop={scrollY === 0}>
+                <ToggleList istop={scrollY === 0 ? "true" : "false"}>
                   <LangChoicedBar
                     onClick={() => {
                       setIsToggleOpen(false);
@@ -98,7 +97,7 @@ const PortfolioNavigationBar = () => {
                   </LangBar>
                 </ToggleList>
               ) : (
-                <ToggleList istop={scrollY === 0}>
+                <ToggleList istop={scrollY === 0 ? "true" : "false"}>
                   <LangChoicedBar
                     onClick={() => {
                       setIsToggleOpen(false);
@@ -119,7 +118,6 @@ const PortfolioNavigationBar = () => {
           </Lang>
         ) : (
           <Lang
-            isnow={!isEng}
             onMouseOver={() => {
               setIsToggleOpen(true);
             }}
@@ -136,7 +134,7 @@ const PortfolioNavigationBar = () => {
             </Icon>
             {isToggleOpen &&
               (isEng ? (
-                <ToggleList istop={scrollY === 0}>
+                <ToggleList istop={scrollY === 0 ? "true" : "false"}>
                   <LangChoicedBar
                     onClick={() => {
                       setIsToggleOpen(false);
@@ -154,7 +152,7 @@ const PortfolioNavigationBar = () => {
                   </LangBar>
                 </ToggleList>
               ) : (
-                <ToggleList istop={scrollY === 0}>
+                <ToggleList istop={scrollY === 0 ? "true" : "false"}>
                   <LangChoicedBar
                     onClick={() => {
                       setIsToggleOpen(false);
@@ -181,20 +179,22 @@ const PortfolioNavigationBar = () => {
 
 export default PortfolioNavigationBar;
 
-const Wrapper = styled.div<{ istop: boolean }>`
+const Wrapper = styled.div<{ istop: string }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   position: fixed;
-  padding: ${(props) => (props.istop ? "24px 30px" : "17px 30px")};
-  background-color: white;
+  padding: ${(props) => (props.istop === "true" ? "24px 30px" : "17px 30px")};
+  background-color: ${(props) =>
+    props.istop === "true" ? "rgba(255, 255, 255, 1)" : "rgba(255,255,255,0.5)"};
+  backdrop-filter: blur(3px);
   top: 0;
   z-index: 105;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.03), 0px 1px 1px 0px rgba(0, 0, 0, 0.01),
     0px 0px 50px 0px rgba(0, 0, 0, 0.07);
   transition: padding 0.3s ease-in-out;
-  background-color: white;
+
   @media (max-width: 745px) {
     padding: 0 20px;
   }
@@ -203,9 +203,9 @@ const Wrapper = styled.div<{ istop: boolean }>`
   }
 `;
 
-const ToggleList = styled.div<{ istop: boolean }>`
+const ToggleList = styled.div<{ istop: string }>`
   position: absolute;
-  top: ${(props) => (props.istop ? "70px" : "60px")};
+  top: ${(props) => (props.istop === "true" ? "70px" : "60px")};
   right: 0px;
   top: 25px;
   width: 220px;
@@ -263,18 +263,6 @@ const Logo = styled.button`
   cursor: pointer;
 `;
 
-const Content = styled(motion.button)`
-  border: none;
-  background-color: white;
-  cursor: pointer;
-  margin-right: 30px;
-  overflow: hidden;
-
-  @media (max-width: 745px) {
-    display: none;
-  }
-`;
-
 const UnderBar = styled(motion.div)`
   background-color: black;
   width: 100%;
@@ -287,7 +275,7 @@ const Toggles = styled.div`
   height: 100%;
 `;
 
-const Lang = styled.div<{ isnow: boolean }>`
+const Lang = styled.div`
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -303,32 +291,3 @@ const Icon = styled.h2`
   font-size: 14px;
   margin-left: 10px;
 `;
-
-const Hidden = styled(motion.h2)`
-  font-size: 16px;
-  font-weight: 400;
-`;
-
-const Ment = styled(motion.h2)`
-  font-size: 16px;
-  font-weight: 400;
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-`;
-
-const hoverUnderVar = {
-  animate: { opacity: 1, y: -0, transition: { duration: 0.3 } },
-  hover: { opacity: 1, y: 20, transition: { duration: 0.3 } },
-};
-
-const hoverOverVar = {
-  animate: { opacity: 1, y: -20, transition: { duration: 0.3 } },
-  hover: { opacity: 1, y: 0, transition: { duration: 0.3 } },
-};
-
-const hoverTargetBar = {
-  animate: {},
-  hover: {},
-};

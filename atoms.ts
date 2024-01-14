@@ -24,6 +24,8 @@ export interface IProjectData {
   functions: string;
   functionsEng: string;
   index: number;
+  content: { name: string; desc: string; img: string; nameEng: string; descEng: string }[];
+  problem: { name: string; desc: string; img: string; nameEng: string; descEng: string }[];
 }
 
 export interface IBlogData {
