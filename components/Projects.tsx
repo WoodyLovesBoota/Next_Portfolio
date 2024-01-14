@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { useEffect, useState } from "react";
+import styled, { keyframes, css } from "styled-components";
+import { RefObject, useEffect, useRef, useState } from "react";
 import { motion, useAnimation } from "framer-motion";
 import { useRecoilState } from "recoil";
 import { languageState, IProjectData } from "../atoms";
@@ -13,8 +13,18 @@ const Projects = ({ projects }: { projects: IProjectData[] }) => {
   const [scrollY, setScrollY] = useState(0);
   const [sorted, setSorted] = useState<IProjectData[]>([]);
   const [isEng, setIsEng] = useRecoilState(languageState);
+  const [isTitleIn, setIsTitleIn] = useState(false);
+  const [isProjectOneIn, setIsProjectOneIn] = useState(false);
+  const [isProjectTwoIn, setIsProjectTwoIn] = useState(false);
+  const [isProjectThreeIn, setIsProjectThreeIn] = useState(false);
+  const [isProjectFourIn, setIsProjectFourIn] = useState(false);
 
   const controls = useAnimation();
+  const ref = useRef<HTMLDivElement>(null);
+  const projectRefOne = useRef<HTMLDivElement>(null);
+  const projectRefTwo = useRef<HTMLDivElement>(null);
+  const projectRefThree = useRef<HTMLDivElement>(null);
+  const projectRefFour = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -36,6 +46,106 @@ const Projects = ({ projects }: { projects: IProjectData[] }) => {
   useEffect(() => {
     controls.start({ y: -10 + scrollY / 40 });
   }, [scrollY, controls]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsTitleIn(true);
+          } else {
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    const observerOne = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsProjectOneIn(true);
+          } else {
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    const observerTwo = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsProjectTwoIn(true);
+          } else {
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    const observerThree = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsProjectThreeIn(true);
+          } else {
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    const observerFour = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsProjectFourIn(true);
+          } else {
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    if (projectRefOne.current) {
+      observerOne.observe(projectRefOne.current);
+    }
+
+    if (projectRefTwo.current) {
+      observerTwo.observe(projectRefTwo.current);
+    }
+
+    if (projectRefThree.current) {
+      observerThree.observe(projectRefThree.current);
+    }
+
+    if (projectRefFour.current) {
+      observerFour.observe(projectRefFour.current);
+    }
+
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current);
+      }
+      if (projectRefOne.current) {
+        observerOne.unobserve(projectRefOne.current);
+      }
+      if (projectRefTwo.current) {
+        observerTwo.unobserve(projectRefTwo.current);
+      }
+      if (projectRefThree.current) {
+        observerThree.unobserve(projectRefThree.current);
+      }
+      if (projectRefFour.current) {
+        observerFour.unobserve(projectRefFour.current);
+      }
+    };
+  }, [isTitleIn]);
 
   return (
     <Wrapper>
@@ -59,8 +169,10 @@ const Projects = ({ projects }: { projects: IProjectData[] }) => {
             </Hidden>
           </ViewLink>
         </Header>
-        <Title>SELECTED</Title>
-        <SecondTitle>PROJECTS</SecondTitle>
+        <TitleWrapper ref={ref} isvisible={isTitleIn ? "true" : "false"}>
+          <Title>SELECTED</Title>
+          <SecondTitle>PROJECTS</SecondTitle>
+        </TitleWrapper>
         <Main>
           {sorted &&
             sorted.slice(0, 4).map((project, index) =>
@@ -86,7 +198,23 @@ const Projects = ({ projects }: { projects: IProjectData[] }) => {
                             setIsHover(-1);
                           }}
                         >
-                          <ProjectSpanL>{project.name}</ProjectSpanL>
+                          <NameBox ref={index === 1 ? projectRefTwo : projectRefFour}>
+                            {project.name.split("").map((char, ind) => {
+                              return (
+                                <NameSpanL
+                                  isvisible={
+                                    index === 1
+                                      ? isProjectTwoIn.toString()
+                                      : isProjectFourIn.toString()
+                                  }
+                                  index={ind}
+                                  key={ind}
+                                >
+                                  {char}
+                                </NameSpanL>
+                              );
+                            })}
+                          </NameBox>
                           <ProjectDetail>
                             {isEng ? project.subtitle : project.subtitleKor}
                           </ProjectDetail>
@@ -181,7 +309,23 @@ const Projects = ({ projects }: { projects: IProjectData[] }) => {
                             setIsHover(-1);
                           }}
                         >
-                          <ProjectSpanR>{project.name}</ProjectSpanR>
+                          <NameBox ref={index === 0 ? projectRefOne : projectRefThree}>
+                            {project.name.split("").map((char, ind) => {
+                              return (
+                                <NameSpanR
+                                  isvisible={
+                                    index === 0
+                                      ? isProjectOneIn.toString()
+                                      : isProjectThreeIn.toString()
+                                  }
+                                  index={ind}
+                                  key={ind}
+                                >
+                                  {char}
+                                </NameSpanR>
+                              );
+                            })}
+                          </NameBox>
                           <ProjectDetailR>
                             {isEng ? project.subtitle : project.subtitleKor}
                           </ProjectDetailR>
@@ -221,6 +365,13 @@ const Header = styled.div`
 const Subject = styled.h2`
   font-size: 16px;
   font-weight: 400;
+`;
+
+const NameBox = styled.div`
+  display: flex;
+  @media (max-width: 745px) {
+    justify-content: center;
+  }
 `;
 
 const ViewLink = styled(motion.a)`
@@ -264,6 +415,29 @@ const Container = styled.div`
   @media (max-width: 745px) {
     padding: 0 20px;
   }
+`;
+
+const fadeIn = keyframes`
+  0% {
+    opacity: 0;
+    transform: rotateX(60deg) rotateY(10deg) rotateZ(-10deg);
+    transform-origin: top;
+    animation-timing-function: var(--ease-out-short);
+  }
+
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+`;
+
+const TitleWrapper = styled.div<{ isvisible: string }>`
+  ${(props) =>
+    props.isvisible === "true" &&
+    css`
+      animation: ${fadeIn} 1s ease-in-out forwards;
+    `};
+  opacity: 0;
 `;
 
 const Title = styled.h2`
@@ -368,13 +542,39 @@ const ProjectTitleR = styled(motion.h2)`
   }
 `;
 
-const ProjectSpanL = styled.span`
+const blink = keyframes`
+  0% {
+    transform: translateY(10px);
+    opacity: 0;
+    visibility: hidden; 
+  }
+  1% {
+    visibility: visible;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+  `;
+
+const NameSpanL = styled.span<{ isvisible: string; index: number }>`
   z-index: 2;
+  visibility: hidden;
+  ${(props) =>
+    props.isvisible === "true" &&
+    css`
+      animation: ${blink} 0.5s ease-in-out forwards;
+    `};
+  animation-delay: ${(props) => props.isvisible === "true" && props.index * 0.03}s;
   font-family: ClashGrotesk-Regular;
   font-size: 60px;
   text-transform: uppercase;
   text-align: right;
   line-height: 1;
+  @media (max-width: 1500px) {
+    font-size: 48px;
+  }
   @media (max-width: 1080px) {
     font-size: 4.17vw;
   }
@@ -384,13 +584,24 @@ const ProjectSpanL = styled.span`
   }
 `;
 
-const ProjectSpanR = styled.span`
+const NameSpanR = styled.span<{ isvisible: string; index: number }>`
+  z-index: 2;
+  visibility: hidden;
+  ${(props) =>
+    props.isvisible === "true" &&
+    css`
+      animation: ${blink} 0.5s ease-in-out forwards;
+    `};
+  animation-delay: ${(props) => props.isvisible === "true" && props.index * 0.03}s;
   z-index: 2;
   font-family: ClashGrotesk-Regular;
   font-size: 60px;
   text-transform: uppercase;
   text-align: left;
   line-height: 1;
+  @media (max-width: 1500px) {
+    font-size: 48px;
+  }
   @media (max-width: 1080px) {
     font-size: 4.17vw;
   }
@@ -409,6 +620,9 @@ const ProjectDetailR = styled.span`
   @media (max-width: 745px) {
     text-align: center;
   }
+  @media (max-width: 1080px) {
+    margin-top: 10px;
+  }
 `;
 
 const ProjectDetail = styled.span`
@@ -419,6 +633,9 @@ const ProjectDetail = styled.span`
   text-align: right;
   @media (max-width: 745px) {
     text-align: center;
+  }
+  @media (max-width: 1080px) {
+    margin-top: 10px;
   }
 `;
 

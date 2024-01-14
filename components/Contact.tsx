@@ -1,11 +1,37 @@
-import { forwardRef } from "react";
+import { forwardRef, useEffect, useRef, useState } from "react";
 
-import styled from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 
 const Contact = forwardRef<HTMLDivElement>((props, ref) => {
   const { register, setValue } = useForm<IForm>();
+  const [isTitleIn, setIsTitleIn] = useState(false);
+  const titleRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsTitleIn(true);
+          } else {
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    if (titleRef.current) {
+      observer.observe(titleRef.current);
+    }
+
+    return () => {
+      if (titleRef.current) {
+        observer.unobserve(titleRef.current);
+      }
+    };
+  }, []);
 
   return (
     <Wrapper ref={ref}>
@@ -13,17 +39,19 @@ const Contact = forwardRef<HTMLDivElement>((props, ref) => {
         <Header>
           <Subject>CONTACT</Subject>
         </Header>
-        <Title variants={hoverTargetVar} animate="animate" whileHover={"hover"}>
-          <LinkWrapper href="mailto:woodylovesboota@gmail.com" target="_blank">
-            WOODYLOVESBOOTA
-            <UnderBar variants={underVar} />
-          </LinkWrapper>
-          <br />
-          <LinkWrapper href="mailto:woodylovesboota@gmail.com" target="_blank">
-            @GMAIL.COM
-            <UnderBar variants={underVar2} />
-          </LinkWrapper>
-        </Title>
+        <TitleWrapper ref={titleRef} isvisible={isTitleIn ? "true" : "false"}>
+          <Title variants={hoverTargetVar} animate="animate" whileHover={"hover"}>
+            <LinkWrapper href="mailto:woodylovesboota@gmail.com" target="_blank">
+              WOODYLOVESBOOTA
+              <UnderBar variants={underVar} />
+            </LinkWrapper>
+            <br />
+            <LinkWrapper href="mailto:woodylovesboota@gmail.com" target="_blank">
+              @GMAIL.COM
+              <UnderBar variants={underVar2} />
+            </LinkWrapper>
+          </Title>
+        </TitleWrapper>
 
         <Main>
           <InfoBox>
@@ -180,7 +208,7 @@ const Subject = styled.h2`
 const UnderBar = styled(motion.h2)`
   background-color: black;
   width: 100%;
-  height: 4px;
+  height: 2px;
   border-radius: 100px;
 `;
 
@@ -209,6 +237,29 @@ const Container = styled.div`
   @media (max-width: 745px) {
     padding: 0 20px;
   }
+`;
+
+const fadeIn = keyframes`
+  0% {
+    opacity: 0;
+    transform: rotateX(60deg) rotateY(10deg) rotateZ(-10deg);
+    transform-origin: top;
+    animation-timing-function: var(--ease-out-short);
+  }
+
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+`;
+
+const TitleWrapper = styled.div<{ isvisible: string }>`
+  ${(props) =>
+    props.isvisible === "true" &&
+    css`
+      animation: ${fadeIn} 1s ease-in-out forwards;
+    `};
+  opacity: 0;
 `;
 
 const Title = styled(motion.h2)`

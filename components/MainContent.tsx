@@ -22,11 +22,24 @@ const MainContent = forwardRef<HTMLDivElement>((props, ref) => {
       </Background>
       <Main>
         <Introduce>
-          <Title>
-            YANG
-            <br />
-            TAEWOOK
-          </Title>
+          <TitleBox>
+            {"YANG".split("").map((char, ind) => {
+              return (
+                <NameSpanFirst index={ind} key={ind}>
+                  {char}
+                </NameSpanFirst>
+              );
+            })}
+          </TitleBox>
+          <TitleBox>
+            {"TAEWOOK".split("").map((char, ind) => {
+              return (
+                <NameSpanSecond index={ind} key={ind}>
+                  {char}
+                </NameSpanSecond>
+              );
+            })}
+          </TitleBox>
           <SubTitle>
             <h2>FRONT-END WEB DEVELOPER </h2>& BLOCKCHAIN DEVELOPER
           </SubTitle>
@@ -96,6 +109,110 @@ const MainContent = forwardRef<HTMLDivElement>((props, ref) => {
 
 export default MainContent;
 
+const typing = keyframes`
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+    visibility: hidden; 
+
+  }
+  1% {
+    visibility: visible;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+
+  }
+`;
+
+const blink = keyframes`
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+    visibility: hidden; 
+  }
+  1% {
+    visibility: visible;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+  `;
+
+const SubTitle = styled.div`
+  animation: ${typing} 1s ease-in-out forwards;
+  animation-delay: 0.5s;
+  visibility: hidden;
+  font-size: 20px;
+  color: white;
+  font-weight: 400;
+  word-break: normal;
+  font-weight: 400;
+  line-height: 24.2px;
+  letter-spacing: 1px;
+  display: flex;
+  justify-content: center;
+  & h2 {
+    font-size: 20px;
+    color: white;
+    font-weight: 400;
+    word-break: normal;
+    font-weight: 400;
+    line-height: 24.2px;
+    letter-spacing: 1px;
+    margin-right: 6px;
+  }
+  @media (max-width: 745px) {
+    display: block;
+  }
+`;
+
+const NameSpanFirst = styled.span<{ index: number }>`
+  animation: ${blink} 1s ease-in-out forwards;
+  animation-delay: ${(props) => props.index * 0.05}s;
+  font-size: 150px;
+  color: white;
+  font-weight: 400;
+  font-family: ClashGrotesk-Medium;
+  line-height: 0.9;
+  letter-spacing: 3px;
+  display: inline-block;
+  text-align: center;
+  visibility: hidden;
+  @media (max-width: 1500px) {
+    font-size: 10.42vw;
+  }
+  @media (max-width: 745px) {
+    font-size: 60px;
+  }
+`;
+
+const NameSpanSecond = styled.span<{ index: number }>`
+  color: white;
+  animation: ${blink} 1s ease-in-out forwards;
+  animation-delay: ${(props) => props.index * 0.05 + 0.3}s;
+  font-size: 150px;
+  font-weight: 400;
+  font-family: ClashGrotesk-Medium;
+  line-height: 0.9;
+  letter-spacing: 3px;
+  margin-bottom: 72px;
+  display: inline-block;
+  text-align: center;
+  visibility: hidden;
+
+  @media (max-width: 1500px) {
+    font-size: 10.42vw;
+  }
+  @media (max-width: 745px) {
+    font-size: 60px;
+  }
+`;
+
 const Wrapper = styled.div`
   width: 100vw;
   min-height: 100vh;
@@ -160,45 +277,9 @@ const Introduce = styled.div`
   text-align: center;
 `;
 
-const Title = styled.h2`
-  font-size: 150px;
-  color: white;
-  font-weight: 400;
-  font-family: ClashGrotesk-Medium;
-  line-height: 0.9;
-  letter-spacing: 3px;
-  margin-bottom: 72px;
-  @media (max-width: 1500px) {
-    font-size: 10.42vw;
-  }
-  @media (max-width: 745px) {
-    font-size: 60px;
-  }
-`;
-
-const SubTitle = styled.div`
-  font-size: 20px;
-  color: white;
-  font-weight: 400;
-  word-break: normal;
-  font-weight: 400;
-  line-height: 24.2px;
-  letter-spacing: 1px;
+const TitleBox = styled.div`
   display: flex;
   justify-content: center;
-  & h2 {
-    font-size: 20px;
-    color: white;
-    font-weight: 400;
-    word-break: normal;
-    font-weight: 400;
-    line-height: 24.2px;
-    letter-spacing: 1px;
-    margin-right: 6px;
-  }
-  @media (max-width: 745px) {
-    display: block;
-  }
 `;
 
 const Links = styled.div`

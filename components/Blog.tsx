@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import styled from "styled-components";
+import { useEffect, useRef, useState } from "react";
+import styled, { keyframes, css } from "styled-components";
 import { motion, useAnimation } from "framer-motion";
 import { useRecoilValue } from "recoil";
 
@@ -11,8 +11,10 @@ const Blog = ({ blogs }: { blogs: IBlogData[] }) => {
   const isEng = useRecoilValue(languageState);
   const [scrollY, setScrollY] = useState(0);
   const [sorted, setSorted] = useState<IBlogData[]>([]);
+  const [isTitleIn, setIsTitleIn] = useState(false);
 
   const controls = useAnimation();
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -36,6 +38,30 @@ const Blog = ({ blogs }: { blogs: IBlogData[] }) => {
     if (scrollY > 5700) controls.start({ y: 0 });
   }, [scrollY, controls]);
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsTitleIn(true);
+          } else {
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current);
+      }
+    };
+  }, []);
+
   return (
     <Wrapper>
       <Container>
@@ -58,22 +84,21 @@ const Blog = ({ blogs }: { blogs: IBlogData[] }) => {
             </Hidden>
           </ViewLink>
         </Header>
-        <Title>LATEST</Title>
-        <SecondTitle>WRITING</SecondTitle>
-
+        <TitleWrapper ref={ref} isvisible={isTitleIn ? "true" : "false"}>
+          <Title>LATEST</Title>
+          <SecondTitle>WRITING</SecondTitle>
+        </TitleWrapper>
         <Main>
           {sorted &&
             sorted.slice(0, 6).map((blog) => (
               <BlogBox key={blog.title}>
                 <a href={blog.link} target="_blank">
-                  <BlogPhotoFrame>
-                    <BlogPhoto
-                      bgphoto={blog.image}
-                      variants={normalVar}
-                      animate="animate"
-                      whileHover={"hover"}
-                    />
-                  </BlogPhotoFrame>
+                  <BlogPhoto
+                    bgphoto={blog.image}
+                    variants={normalVar}
+                    animate="animate"
+                    whileHover={"hover"}
+                  />
                   <BlogContent>
                     <BlogTitle>{isEng ? blog.titleEng : blog.title}</BlogTitle>
                     <BlogDate>
@@ -126,6 +151,29 @@ const ViewLink = styled(motion.a)`
   & svg {
     margin-left: 11px;
   }
+`;
+
+const fadeIn = keyframes`
+  0% {
+    opacity: 0;
+    transform: rotateX(60deg) rotateY(10deg) rotateZ(-10deg);
+    transform-origin: top;
+    animation-timing-function: var(--ease-out-short);
+  }
+
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+`;
+
+const TitleWrapper = styled.div<{ isvisible: string }>`
+  ${(props) =>
+    props.isvisible === "true" &&
+    css`
+      animation: ${fadeIn} 1s ease-in-out forwards;
+    `};
+  opacity: 0;
 `;
 
 const SecondTitle = styled.h2`
@@ -199,30 +247,15 @@ const BlogBox = styled(motion.div)`
   cursor: pointer;
 `;
 
-const BlogPhotoFrame = styled(motion.div)`
-  height: 384px;
-  border-radius: 32px;
-  cursor: pointer;
-  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
-  @media (max-width: 1500px) {
-    height: 25vw;
-  }
-  @media (max-width: 1080px) {
-    height: 40vw;
-  }
-  @media (max-width: 745px) {
-    height: 80vw;
-  }
-`;
-
 const BlogPhoto = styled(motion.div)<{ bgphoto: string }>`
   background-image: url(${(props) => props.bgphoto});
   background-position: center center;
   background-size: cover;
-  height: 384px;
-  border-radius: 32px;
+  height: 312px;
+  border-radius: 12px;
+  cursor: pointer;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
   @media (max-width: 1500px) {
     height: 25vw;
   }
@@ -239,7 +272,7 @@ const BlogContent = styled.div`
 `;
 
 const BlogTitle = styled.h2`
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 400;
   word-break: normal;
   line-height: 36px;
@@ -247,9 +280,9 @@ const BlogTitle = styled.h2`
 `;
 
 const BlogDate = styled.h2`
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 400;
-  margin-top: 24px;
+  margin-top: 12px;
   display: inline-block;
   color: gray;
   text-transform: uppercase;
@@ -288,6 +321,6 @@ const hoverOverVar = {
 };
 
 const normalVar = {
-  animate: { scale: 1 },
-  hover: { scale: 1.03, transition: { duration: 0.2, delay: 0.1 } },
+  animate: { y: 0 },
+  hover: { y: -10, transition: { duration: 0.2 } },
 };
