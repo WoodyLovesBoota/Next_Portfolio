@@ -26,6 +26,8 @@ export interface IProjectData {
   index: number;
   content: { name: string; desc: string; img: string; nameEng: string; descEng: string }[];
   problem: { name: string; desc: string; img: string; nameEng: string; descEng: string }[];
+  implementation: { desc: string; image: string[]; descen: string }[];
+  recap: { desc: string; image: string; descen: string };
 }
 
 export interface IBlogData {

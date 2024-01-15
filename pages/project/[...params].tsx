@@ -135,6 +135,7 @@ const Detail = ({ data }: { data: { projects: IProjectData[]; blogs: IBlogData[]
                     width={700}
                     height={400}
                     style={{ width: "100%", height: "100%" }}
+                    priority={i === 0 && true}
                   />
                   <LinktoProject href={sorted[Number(ind) - 1]?.demo} target="_blank" />
                 </Card>
@@ -152,7 +153,7 @@ const Detail = ({ data }: { data: { projects: IProjectData[]; blogs: IBlogData[]
         </TitleRow>
         <OverviewRow>
           <Column>
-            <RowTitle>Project Details</RowTitle>
+            <DescriptionTitle>Project Details</DescriptionTitle>
             <Skills>
               <SkillTitle>Date:</SkillTitle>
               <SkillList>
@@ -202,60 +203,87 @@ const Detail = ({ data }: { data: { projects: IProjectData[]; blogs: IBlogData[]
             </Skills>
           </Column>
           <Column>
-            <RowTitle>Overview</RowTitle>
+            <DescriptionTitle>Description</DescriptionTitle>
             <Description>
               {isEng ? sorted[Number(ind) - 1]?.detail : sorted[Number(ind) - 1]?.detailKor}
             </Description>
+            <Link href={sorted[Number(ind) - 1]?.github || "/"} target="_blank">
+              <WhiteButton variants={hoverTargetBar} animate="animate" whileHover={"hover"}>
+                <Ment variants={hoverOverVar}>VISIT GITHUB</Ment>
+                <Hidden variants={hoverUnderVar}>VISIT GITHUB</Hidden>
+              </WhiteButton>
+            </Link>
           </Column>
         </OverviewRow>
+        <RowDivider />
         <DescriptionRow>
           <DescTitle>Key Features</DescTitle>
           <DescContainer>
-            {sorted[Number(ind) - 1]?.content.map((des) => (
-              <DescBox key={des.name}>
-                <DescName>{isEng ? des.nameEng : des.name}</DescName>
-                <DescMain>
-                  {des.img && (
-                    <DescImage>
-                      <Image
-                        src={des.img}
-                        alt="Description"
-                        width={700}
-                        height={500}
-                        style={{ width: "100%", height: "100%", borderRadius: "4px" }}
-                      />
-                    </DescImage>
-                  )}
-                  <DescContent withimg={des.img ? "true" : "false"}>
-                    {isEng ? des.descEng : des.desc}
-                  </DescContent>
-                </DescMain>
-              </DescBox>
+            {sorted[Number(ind) - 1]?.implementation.map((des) => (
+              <DescMain key={des.desc}>
+                <DescImageContainer>
+                  <DescImage>
+                    <Image
+                      src={des.image[0] ? des.image[0] : ""}
+                      alt="Description"
+                      width={700}
+                      height={500}
+                      style={{ width: "100%", height: "100%", borderRadius: "4px" }}
+                    />
+                  </DescImage>
+                  <DescImage>
+                    <Image
+                      src={des.image[1] ? des.image[1] : ""}
+                      alt="Description"
+                      width={700}
+                      height={500}
+                      style={{ width: "100%", height: "100%", borderRadius: "4px" }}
+                    />
+                  </DescImage>
+                </DescImageContainer>
+                <DescContent>
+                  <DescArrowWrapper>
+                    <ArrowSmall />
+                  </DescArrowWrapper>
+                  {isEng ? des.descen : des.desc}
+                </DescContent>
+              </DescMain>
             ))}
           </DescContainer>
-          <DescTitle>Problem & Solve</DescTitle>
+          <RowDivider />
+          <DescTitle>Recap</DescTitle>
           <DescContainer>
-            {sorted[Number(ind) - 1]?.problem.map((des) => (
-              <DescBox key={des.name}>
-                <DescName>{isEng ? des.nameEng : des.name}</DescName>
-                <DescMain>
-                  {des.img && (
-                    <DescImage>
-                      <Image
-                        src={des.img}
-                        alt="Description"
-                        width={700}
-                        height={500}
-                        style={{ width: "100%", height: "100%", borderRadius: "4px" }}
-                      />
-                    </DescImage>
-                  )}
-                  <DescContent withimg={des.img ? "true" : "false"}>
-                    {isEng ? des.descEng : des.desc}
-                  </DescContent>
-                </DescMain>
-              </DescBox>
-            ))}
+            <RecapBox>
+              <RecapContent>
+                {isEng
+                  ? sorted[Number(ind) - 1]?.recap.descen
+                      .split("<br />")
+                      .map((sent) => <DescSentence key={sent}>{sent}</DescSentence>)
+                  : sorted[Number(ind) - 1]?.recap.desc
+                      .split("<br />")
+                      .map((sent) => <DescSentence key={sent}>{sent}</DescSentence>)}
+                <DescSentence>
+                  {isEng
+                    ? "You can find more detailed information about the problem-solving process on my GitHub repository."
+                    : "문제 해결에 대한 더 자세한 내용은 Github에서 확인하실 수 있습니다."}
+                </DescSentence>
+                <Link href={sorted[Number(ind) - 1]?.github || "/"} target="_blank">
+                  <WhiteButton variants={hoverTargetBar} animate="animate" whileHover={"hover"}>
+                    <Ment variants={hoverOverVar}>VISIT GITHUB</Ment>
+                    <Hidden variants={hoverUnderVar}>VISIT GITHUB</Hidden>
+                  </WhiteButton>
+                </Link>
+              </RecapContent>
+              <RecapImage>
+                <Image
+                  src={sorted[Number(ind) - 1]?.recap.image}
+                  alt="Description"
+                  width={700}
+                  height={500}
+                  style={{ width: "100%", height: "100%", borderRadius: "4px" }}
+                />
+              </RecapImage>
+            </RecapBox>
           </DescContainer>
         </DescriptionRow>
         <BigArrowWrapper>
@@ -351,6 +379,19 @@ const Wrapper = styled.div`
   }
 `;
 
+const DescImageContainer = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* box-shadow: 2px 25px 40px 0 rgba(0, 0, 0, 0.15); */
+  @media (max-width: 1080px) {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+`;
+
 const Container = styled.div`
   width: 1440px;
   display: flex;
@@ -364,6 +405,12 @@ const Container = styled.div`
   @media (max-width: 745px) {
     padding: 0 20px;
   }
+`;
+
+const RowDivider = styled.div`
+  width: 100%;
+  height: 2px;
+  background-color: #f5f5f5;
 `;
 
 const SlideButton = styled(motion.div)`
@@ -470,6 +517,17 @@ const ViewLink = styled(motion.div)`
   }
 `;
 
+const WhiteButton = styled(motion.div)`
+  position: relative;
+  cursor: pointer;
+  display: inline-block;
+  overflow: hidden;
+  border: 1px solid black;
+  border-radius: 100px;
+  padding: 8px 16px;
+  margin-top: 15px;
+`;
+
 const TitleRow = styled.div`
   width: 100%;
 `;
@@ -499,7 +557,7 @@ const OverviewRow = styled.div`
   display: flex;
   margin-top: 100px;
   justify-content: space-between;
-  margin-bottom: 150px;
+  margin-bottom: 200px;
   width: 100%;
 
   @media (max-width: 1500px) {
@@ -514,7 +572,6 @@ const OverviewRow = styled.div`
   }
 
   @media (max-width: 745px) {
-    margin-bottom: 0px;
     margin-top: 40px;
   }
 `;
@@ -522,38 +579,54 @@ const OverviewRow = styled.div`
 const DescriptionRow = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 100px;
   margin-bottom: 150px;
   width: 100%;
-
-  @media (max-width: 1500px) {
-    margin-top: 80px;
-  }
 
   @media (max-width: 1080px) {
     flex-direction: column;
     justify-content: flex-start;
-    margin-top: 50px;
   }
 
   @media (max-width: 745px) {
     margin-bottom: 40px;
-    margin-top: 40px;
   }
 `;
 
 const DescTitle = styled.h2`
-  color: gray;
-  font-size: 18px;
-  font-weight: 400;
-  margin-bottom: 30px;
+  font-size: 28px;
+  font-weight: 500;
+  margin-bottom: 20px;
+  margin-top: 200px;
+  @media (max-width: 1080px) {
+    margin-top: 50px;
+  }
+
+  @media (max-width: 745px) {
+    margin-top: 40px;
+  }
 `;
 
-const DescContainer = styled.div``;
-
-const DescBox = styled.div`
+const DescContainer = styled.div`
   margin-bottom: 100px;
   @media (max-width: 1080px) {
+    margin-bottom: 0px;
+  }
+`;
+
+const DescMain = styled.div`
+  width: 100%;
+  margin-bottom: 100px;
+  @media (max-width: 1080px) {
+    margin-bottom: 60px;
+  }
+`;
+
+const RecapBox = styled.div`
+  width: 100%;
+  margin-bottom: 100px;
+  display: flex;
+  @media (max-width: 1180px) {
+    flex-direction: column-reverse;
     margin-bottom: 80px;
   }
 
@@ -562,28 +635,11 @@ const DescBox = styled.div`
   }
 `;
 
-const DescMain = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  @media (max-width: 1180px) {
-    flex-direction: column;
-    justify-content: flex-start;
-  }
-`;
-
-const DescName = styled.h2`
-  font-size: 24px;
-  font-weight: 600;
-  margin-bottom: 18px;
-`;
-
-const DescImage = styled(motion.div)`
+const RecapImage = styled(motion.div)`
   position: relative;
   width: 700px;
   height: 394px;
-  border-radius: 4px;
-  box-shadow: 2px 25px 40px 0 rgba(0, 0, 0, 0.15);
+  box-shadow: 1px 12px 20px 0 rgba(0, 0, 0, 0.15);
   @media (max-width: 1180px) {
     width: 100%;
     height: calc((100vw - 60px) * 9 / 16);
@@ -591,15 +647,49 @@ const DescImage = styled(motion.div)`
   }
 `;
 
-const DescContent = styled.h2<{ withimg: string }>`
+const DescImage = styled(motion.div)`
+  position: relative;
+  width: 49.5%;
+  height: calc(720px * 9 / 16);
+  box-shadow: 1px 12px 20px 0 rgba(0, 0, 0, 0.15);
+  @media (max-width: 1500px) {
+    height: calc((50vw - 60px) * 9 / 16);
+    margin-bottom: 20px;
+  }
+  @media (max-width: 1080px) {
+    width: 100%;
+    height: calc((100vw - 60px) * 9 / 16);
+    margin-bottom: 20px;
+  }
+`;
+
+const DescSentence = styled.span`
+  display: block;
+  margin: 10px 0;
+`;
+
+const RecapContent = styled.h2`
   font-size: 16px;
   font-weight: 400;
-  line-height: 1.8;
-  margin-left: ${(props) => (props.withimg === "true" ? "30px" : 0)};
-  width: ${(props) => (props.withimg === "true" ? "calc(100% - 670px);" : "100%")};
+  line-height: 2;
+  margin-right: 30px;
+  width: calc(100% - 670px);
   @media (max-width: 1180px) {
     width: 100%;
     margin-left: 0;
+  }
+`;
+
+const DescContent = styled.h2`
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.8;
+  display: flex;
+  align-items: flex-start;
+  color: #757575;
+  margin-top: 20px;
+  @media (max-width: 1080px) {
+    margin-top: 0px;
   }
 `;
 
@@ -611,10 +701,17 @@ const Column = styled.div`
   }
 `;
 
-const RowTitle = styled.h2`
+const DescArrowWrapper = styled.div`
+  rotate: -90deg;
+`;
+
+const DescriptionTitle = styled.div`
   font-size: 28px;
   font-weight: 500;
   margin-bottom: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const SkillTitle = styled.h2`
@@ -654,7 +751,7 @@ const Skill = styled.h2`
   font-weight: 400;
   line-height: 2;
   flex-wrap: wrap;
-  text-transform: uppercase;
+  text-transform: capitalize;
 `;
 
 const Func = styled.h2`
