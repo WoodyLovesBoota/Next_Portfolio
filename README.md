@@ -1,10 +1,10 @@
-# Personal Website
+# Portfolio Website
 
 ![Project ScreenShot0](https://firebasestorage.googleapis.com/v0/b/travelgo-6fa6a.appspot.com/o/Portfolio%2F1704345778942.webp?alt=media&token=33598474-e14e-4493-afe1-9b1e01d5dcde)
 
 <br>
 
-## Personal Website는?
+## Portfolio Website는?
 
 제가 현재까지 진행한 프로젝트들, 사용한 기술 스택, 작성한 블로그 등을 이용하여 저를 소개하는 웹사이트를 만들었습니다. Firebase를 통해 데이터를 관리하였으며 스크롤과 Hover 효과를 활용해 보다 자연스러운 시각적 효과를 구현하기 위해 노력하였습니다. 
 기존에 React와 Typescript를 이용하여 개발하였지만 초기 렌더링이 빠른 것이 포트폴리오 사이트의 특성 상 중요하다 생각되어 Nex와 Typescript 기반으로 마이그레이션을 진행했습니다.<br>
