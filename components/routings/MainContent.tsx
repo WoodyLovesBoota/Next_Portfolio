@@ -2,8 +2,8 @@ import styled, { keyframes } from "styled-components";
 import { forwardRef, useRef } from "react";
 import { motion } from "framer-motion";
 
-import Bg from "./assets/bg.svg";
-import Arrow from "./assets/arrow.svg";
+import Bg from "../assets/bg.svg";
+import Arrow from "../assets/arrow.svg";
 
 const MainContent = forwardRef<HTMLDivElement>((props, ref) => {
   const arrowRef = useRef<HTMLDivElement>(null);

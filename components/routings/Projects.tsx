@@ -2,9 +2,9 @@ import styled, { keyframes, css } from "styled-components";
 import { RefObject, useEffect, useRef, useState } from "react";
 import { motion, useAnimation } from "framer-motion";
 import { useRecoilState } from "recoil";
-import { languageState, IProjectData } from "../atoms";
+import { languageState, IProjectData } from "../../atoms";
 
-import ArrowSmall from "./assets/arrowsmall.svg";
+import ArrowSmall from "../assets/arrowsmall.svg";
 import Link from "next/link";
 import Image from "next/image";
 

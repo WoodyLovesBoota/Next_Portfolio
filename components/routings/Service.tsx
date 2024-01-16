@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { forwardRef } from "react";
-import ToggleBox from "./ToggleBox";
+import ToggleBox from "../ToggleBox";
 
 const Services = forwardRef<HTMLDivElement>((props, ref) => {
   return (

@@ -3,9 +3,10 @@ import styled, { keyframes, css } from "styled-components";
 import { motion, useAnimation } from "framer-motion";
 import { useRecoilValue } from "recoil";
 
-import { languageState, IBlogData } from "../atoms";
-import { months } from "../utils";
-import ArrowSmall from "./assets/arrowsmall.svg";
+import { languageState, IBlogData } from "../../atoms";
+import { months } from "../../utils";
+import ArrowSmall from "../assets/arrowsmall.svg";
+import Link from "next/link";
 
 const Blog = ({ blogs }: { blogs: IBlogData[] }) => {
   const isEng = useRecoilValue(languageState);
@@ -92,7 +93,7 @@ const Blog = ({ blogs }: { blogs: IBlogData[] }) => {
           {sorted &&
             sorted.slice(0, 6).map((blog) => (
               <BlogBox key={blog.title}>
-                <a href={blog.link} target="_blank">
+                <Link href={blog.link} target="_blank">
                   <BlogPhoto
                     bgphoto={blog.image}
                     variants={normalVar}
@@ -109,7 +110,7 @@ const Blog = ({ blogs }: { blogs: IBlogData[] }) => {
                         blog.date.split(".")[0]}
                     </BlogDate>
                   </BlogContent>
-                </a>
+                </Link>
               </BlogBox>
             ))}
         </Main>

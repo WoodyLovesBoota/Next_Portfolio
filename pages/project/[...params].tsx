@@ -11,7 +11,7 @@ import AngleL from "../../components/assets/anglearrowleft.svg";
 
 import Seo from "@/components/Seo";
 import PortfolioNavigationBar from "@/components/PortfolioNavigationBar";
-import Footer from "@/components/Footer";
+import Footer from "@/components/routings/Footer";
 
 import { GetServerSideProps } from "next";
 

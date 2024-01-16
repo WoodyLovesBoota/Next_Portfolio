@@ -188,145 +188,49 @@ const NavigationBar = ({
       </Contents>
       <AnimatePresence>
         <Toggles>
-          {isEng ? (
-            <Lang
-              onMouseOver={() => {
-                setIsToggleOpen(true);
-              }}
-              onMouseLeave={() => {
-                setIsToggleOpen(false);
-              }}
-            >
-              <LanguageName>
-                EN
-                <UnderBar />
-              </LanguageName>
-              <Icon>
-                <FontAwesomeIcon icon={faAngleDown} />
-              </Icon>
-              {isToggleOpen &&
-                (isEng ? (
-                  <ToggleList
-                    key={"kor1"}
-                    variants={toggleVar}
-                    initial="initial"
-                    animate="animate"
-                    exit={"exit"}
-                    istop={(scrollY === 0).toString()}
-                  >
-                    <LangChoicedBar
-                      onClick={() => {
-                        setIsToggleOpen(false);
-                      }}
-                    >
-                      ENGLISH
-                    </LangChoicedBar>
-                    <LangBar
-                      onClick={() => {
-                        setIsEng(false);
-                        setIsToggleOpen(false);
-                      }}
-                    >
-                      KOREAN
-                    </LangBar>
-                  </ToggleList>
-                ) : (
-                  <ToggleList
-                    key={"kor2"}
-                    variants={toggleVar}
-                    initial="initial"
-                    animate="animate"
-                    exit={"exit"}
-                    istop={(scrollY === 0).toString()}
-                  >
-                    <LangChoicedBar
-                      onClick={() => {
-                        setIsToggleOpen(false);
-                      }}
-                    >
-                      KOREAN
-                    </LangChoicedBar>
-                    <LangBar
-                      onClick={() => {
-                        setIsEng(true);
-                        setIsToggleOpen(false);
-                      }}
-                    >
-                      ENGLISH
-                    </LangBar>
-                  </ToggleList>
-                ))}
-            </Lang>
-          ) : (
-            <Lang
-              onMouseOver={() => {
-                setIsToggleOpen(true);
-              }}
-              onMouseLeave={() => {
-                setIsToggleOpen(false);
-              }}
-            >
-              <LanguageName>
-                KR
-                <UnderBar />
-              </LanguageName>
-              <Icon>
-                <FontAwesomeIcon icon={faAngleDown} />
-              </Icon>
-              {isToggleOpen &&
-                (isEng ? (
-                  <ToggleList
-                    key={"eng1"}
-                    variants={toggleVar}
-                    initial="initial"
-                    animate="animate"
-                    exit={"exit"}
-                    istop={(scrollY === 0).toString()}
-                  >
-                    <LangChoicedBar
-                      onClick={() => {
-                        setIsToggleOpen(false);
-                      }}
-                    >
-                      ENGLISH
-                    </LangChoicedBar>
-                    <LangBar
-                      onClick={() => {
-                        setIsEng(false);
-                        setIsToggleOpen(false);
-                      }}
-                    >
-                      KOREAN
-                    </LangBar>
-                  </ToggleList>
-                ) : (
-                  <ToggleList
-                    key={"eng2"}
-                    variants={toggleVar}
-                    initial="initial"
-                    animate="animate"
-                    exit={"exit"}
-                    istop={(scrollY === 0).toString()}
-                  >
-                    <LangChoicedBar
-                      onClick={() => {
-                        setIsToggleOpen(false);
-                      }}
-                    >
-                      KOREAN
-                    </LangChoicedBar>
-                    <LangBar
-                      onClick={() => {
-                        setIsEng(true);
-                        setIsToggleOpen(false);
-                      }}
-                    >
-                      ENGLISH
-                    </LangBar>
-                  </ToggleList>
-                ))}
-            </Lang>
-          )}
+          <Lang
+            onMouseOver={() => {
+              setIsToggleOpen(true);
+            }}
+            onMouseLeave={() => {
+              setIsToggleOpen(false);
+            }}
+          >
+            <LanguageName>
+              {isEng ? "EN" : "KR"}
+              <UnderBar />
+            </LanguageName>
+            <Icon>
+              <FontAwesomeIcon icon={faAngleDown} />
+            </Icon>
+            {isToggleOpen && (
+              <ToggleList
+                key={"kor1"}
+                variants={toggleVar}
+                initial="initial"
+                animate="animate"
+                exit={"exit"}
+                istop={(scrollY === 0).toString()}
+              >
+                <LangBar
+                  onClick={() => {
+                    setIsToggleOpen(false);
+                    setIsEng(true);
+                  }}
+                >
+                  ENGLISH
+                </LangBar>
+                <LangBar
+                  onClick={() => {
+                    setIsEng(false);
+                    setIsToggleOpen(false);
+                  }}
+                >
+                  KOREAN
+                </LangBar>
+              </ToggleList>
+            )}
+          </Lang>
         </Toggles>
       </AnimatePresence>
     </Wrapper>

@@ -58,120 +58,43 @@ const PortfolioNavigationBar = () => {
           </motion.svg>
         </Logo>
       </Link>
-      <Contents></Contents>
-
       <Toggles>
-        {isEng ? (
-          <Lang
-            onMouseOver={() => {
-              setIsToggleOpen(true);
-            }}
-            onMouseLeave={() => {
-              setIsToggleOpen(false);
-            }}
-          >
-            <LanguageName>
-              EN
-              <UnderBar />
-            </LanguageName>
-            <Icon>
-              <FontAwesomeIcon icon={faAngleDown} />
-            </Icon>
-            {isToggleOpen &&
-              (isEng ? (
-                <ToggleList istop={scrollY === 0 ? "true" : "false"}>
-                  <LangChoicedBar
-                    onClick={() => {
-                      setIsToggleOpen(false);
-                    }}
-                  >
-                    ENGLISH
-                  </LangChoicedBar>
-                  <LangBar
-                    onClick={() => {
-                      setIsEng(false);
-                      setIsToggleOpen(false);
-                    }}
-                  >
-                    KOREAN
-                  </LangBar>
-                </ToggleList>
-              ) : (
-                <ToggleList istop={scrollY === 0 ? "true" : "false"}>
-                  <LangChoicedBar
-                    onClick={() => {
-                      setIsToggleOpen(false);
-                    }}
-                  >
-                    KOREAN
-                  </LangChoicedBar>
-                  <LangBar
-                    onClick={() => {
-                      setIsEng(true);
-                      setIsToggleOpen(false);
-                    }}
-                  >
-                    ENGLISH
-                  </LangBar>
-                </ToggleList>
-              ))}
-          </Lang>
-        ) : (
-          <Lang
-            onMouseOver={() => {
-              setIsToggleOpen(true);
-            }}
-            onMouseLeave={() => {
-              setIsToggleOpen(false);
-            }}
-          >
-            <LanguageName>
-              KR
-              <UnderBar />
-            </LanguageName>
-            <Icon>
-              <FontAwesomeIcon icon={faAngleDown} />
-            </Icon>
-            {isToggleOpen &&
-              (isEng ? (
-                <ToggleList istop={scrollY === 0 ? "true" : "false"}>
-                  <LangChoicedBar
-                    onClick={() => {
-                      setIsToggleOpen(false);
-                    }}
-                  >
-                    ENGLISH
-                  </LangChoicedBar>
-                  <LangBar
-                    onClick={() => {
-                      setIsEng(false);
-                      setIsToggleOpen(false);
-                    }}
-                  >
-                    KOREAN
-                  </LangBar>
-                </ToggleList>
-              ) : (
-                <ToggleList istop={scrollY === 0 ? "true" : "false"}>
-                  <LangChoicedBar
-                    onClick={() => {
-                      setIsToggleOpen(false);
-                    }}
-                  >
-                    KOREAN
-                  </LangChoicedBar>
-                  <LangBar
-                    onClick={() => {
-                      setIsEng(true);
-                      setIsToggleOpen(false);
-                    }}
-                  >
-                    ENGLISH
-                  </LangBar>
-                </ToggleList>
-              ))}
-          </Lang>
-        )}
+        <Lang
+          onMouseOver={() => {
+            setIsToggleOpen(true);
+          }}
+          onMouseLeave={() => {
+            setIsToggleOpen(false);
+          }}
+        >
+          <LanguageName>
+            {isEng ? "EN" : "KR"}
+            <UnderBar />
+          </LanguageName>
+          <Icon>
+            <FontAwesomeIcon icon={faAngleDown} />
+          </Icon>
+          {isToggleOpen && (
+            <ToggleList istop={scrollY === 0 ? "true" : "false"}>
+              <LangBar
+                onClick={() => {
+                  setIsToggleOpen(false);
+                  setIsEng(true);
+                }}
+              >
+                ENGLISH
+              </LangBar>
+              <LangBar
+                onClick={() => {
+                  setIsEng(false);
+                  setIsToggleOpen(false);
+                }}
+              >
+                KOREAN
+              </LangBar>
+            </ToggleList>
+          )}
+        </Lang>
       </Toggles>
     </Wrapper>
   );
@@ -224,30 +147,6 @@ const LangBar = styled.h2`
     background-color: #262626;
   }
   transition: background-color 0.2s ease-in-out;
-`;
-
-const LangChoicedBar = styled.h2`
-  font-size: 16px;
-  line-height: 2;
-  background-color: black;
-  display: flex;
-  align-items: center;
-  padding: 10px 20px;
-  color: white;
-  width: 100%;
-  &:hover {
-    background-color: #262626;
-  }
-  transition: background-color 0.2s ease-in-out;
-`;
-
-const Contents = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  overflow: hidden;
-  margin-left: auto;
 `;
 
 const Logo = styled.button`
