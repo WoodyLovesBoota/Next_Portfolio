@@ -52,13 +52,7 @@ const Footer = () => {
           </Ment>
 
           <Circle variants={hoverVar}>
-            <motion.svg
-              width="31"
-              height="31"
-              viewBox="0 0 31 31"
-              fill="transparent"
-              xmlns="http://www.w3.org/2000/svg"
-            >
+            <motion.svg width="31" height="31" viewBox="0 0 31 31" fill="transparent" xmlns="http://www.w3.org/2000/svg">
               <rect x="0.5" y="0.5" width="30" height="30" rx="15" stroke="#000000" />
               <g clipPath="url(#clip0_36_118)">
                 <motion.path
@@ -71,23 +65,11 @@ const Footer = () => {
                   d="M15.5 8C15.5 5.46386 17.3391 3.5 19.5 3.5C21.6609 3.5 23.5 5.46386 23.5 8C23.5 10.5361 21.6609 12.5 19.5 12.5C17.3391 12.5 15.5 10.5361 15.5 8Z"
                   stroke="#ffffff"
                 />
-                <motion.line
-                  x1="15.5"
-                  y1="23"
-                  x2="15.5"
-                  y2="8"
-                  stroke="#ffffff"
-                  variants={svgVar}
-                />
+                <motion.line x1="15.5" y1="23" x2="15.5" y2="8" stroke="#ffffff" variants={svgVar} />
               </g>
               <defs>
                 <clipPath id="clip0_36_118">
-                  <rect
-                    width="9"
-                    height="15"
-                    fill="transparent"
-                    transform="translate(20 23) rotate(-180)"
-                  />
+                  <rect width="9" height="15" fill="transparent" transform="translate(20 23) rotate(-180)" />
                 </clipPath>
               </defs>
             </motion.svg>

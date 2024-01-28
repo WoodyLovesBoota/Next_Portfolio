@@ -54,16 +54,14 @@ const Detail = ({ data }: { data: { projects: IProjectData[]; blogs: IBlogData[]
     if (leaving) return;
     toggleLeaving();
     setIsRight(1);
-    sorted &&
-      setIndex((prev) => (prev === sorted[Number(ind) - 1].image.length - 1 ? 0 : prev + 1));
+    sorted && setIndex((prev) => (prev === sorted[Number(ind) - 1].image.length - 1 ? 0 : prev + 1));
   };
 
   const decreaseIndex = () => {
     if (leaving) return;
     toggleLeaving();
     setIsRight(-1);
-    sorted &&
-      setIndex((prev) => (prev === 0 ? sorted[Number(ind) - 1].image.length - 1 : prev - 1));
+    sorted && setIndex((prev) => (prev === 0 ? sorted[Number(ind) - 1].image.length - 1 : prev - 1));
   };
 
   const toggleLeaving = () => {
@@ -145,9 +143,7 @@ const Detail = ({ data }: { data: { projects: IProjectData[]; blogs: IBlogData[]
               <AngleR />
             </SlideButton>
             <Dots num={sorted[Number(ind) - 1]?.image.length}>
-              {sorted[Number(ind) - 1]?.image.map((e, i) =>
-                i === index ? <NowDot key={i}></NowDot> : <Dot key={i}></Dot>
-              )}
+              {sorted[Number(ind) - 1]?.image.map((e, i) => (i === index ? <NowDot key={i}></NowDot> : <Dot key={i}></Dot>))}
             </Dots>
           </Box>
         </TitleRow>
@@ -157,12 +153,8 @@ const Detail = ({ data }: { data: { projects: IProjectData[]; blogs: IBlogData[]
             <Skills>
               <SkillTitle>Date:</SkillTitle>
               <SkillList>
-                {sorted[Number(ind) - 1]?.date[0].slice(0, 4) +
-                  "." +
-                  sorted[Number(ind) - 1]?.date[0].slice(4) ===
-                sorted[Number(ind) - 1]?.date[1].slice(0, 4) +
-                  "." +
-                  sorted[Number(ind) - 1]?.date[1].slice(4) ? (
+                {sorted[Number(ind) - 1]?.date[0].slice(0, 4) + "." + sorted[Number(ind) - 1]?.date[0].slice(4) ===
+                sorted[Number(ind) - 1]?.date[1].slice(0, 4) + "." + sorted[Number(ind) - 1]?.date[1].slice(4) ? (
                   <Skill>
                     {months[Number(sorted[Number(ind) - 1]?.date[0].slice(4)) - 1] +
                       ", " +
@@ -194,23 +186,23 @@ const Detail = ({ data }: { data: { projects: IProjectData[]; blogs: IBlogData[]
             <Skills>
               <SkillTitle>Functions:</SkillTitle>
               <SkillList>
-                <Func>
-                  {isEng
-                    ? sorted[Number(ind) - 1]?.functionsEng
-                    : sorted[Number(ind) - 1]?.functions}
-                </Func>
+                <Func>{isEng ? sorted[Number(ind) - 1]?.functionsEng : sorted[Number(ind) - 1]?.functions}</Func>
               </SkillList>
             </Skills>
           </Column>
           <Column>
             <DescriptionTitle>Description</DescriptionTitle>
-            <Description>
-              {isEng ? sorted[Number(ind) - 1]?.detail : sorted[Number(ind) - 1]?.detailKor}
-            </Description>
+            <Description>{isEng ? sorted[Number(ind) - 1]?.detail : sorted[Number(ind) - 1]?.detailKor}</Description>
             <Link href={sorted[Number(ind) - 1]?.github || "/"} target="_blank">
               <WhiteButton variants={hoverTargetBar} animate="animate" whileHover={"hover"}>
                 <Ment variants={hoverOverVar}>VISIT GITHUB</Ment>
                 <Hidden variants={hoverUnderVar}>VISIT GITHUB</Hidden>
+              </WhiteButton>
+            </Link>
+            <Link href={sorted[Number(ind) - 1]?.demo || "/"} target="_blank">
+              <WhiteButton variants={hoverTargetBar} animate="animate" whileHover={"hover"}>
+                <Ment variants={hoverOverVar}>VISIT WEBSITE</Ment>
+                <Hidden variants={hoverUnderVar}>VISIT WEBSITE</Hidden>
               </WhiteButton>
             </Link>
           </Column>
@@ -241,12 +233,7 @@ const Detail = ({ data }: { data: { projects: IProjectData[]; blogs: IBlogData[]
                     />
                   </DescImage>
                 </DescImageContainer>
-                <DescContent>
-                  <DescArrowWrapper>
-                    <ArrowSmall />
-                  </DescArrowWrapper>
-                  {isEng ? des.descen : des.desc}
-                </DescContent>
+                <DescContent>{isEng ? des.descen : des.desc}</DescContent>
               </DescMain>
             ))}
           </DescContainer>
@@ -289,13 +276,7 @@ const Detail = ({ data }: { data: { projects: IProjectData[]; blogs: IBlogData[]
         <BigArrowWrapper>
           <Arrow />
         </BigArrowWrapper>
-        <Button
-          variants={hoverVar}
-          animate="animate"
-          whileHover={"hover"}
-          href={sorted[Number(ind) - 1]?.demo}
-          target="_blank"
-        >
+        <Button variants={hoverVar} animate="animate" whileHover={"hover"} href={sorted[Number(ind) - 1]?.demo} target="_blank">
           VISIT WEBSITE
           <UnderBar variants={hoverUnderBarVar} />
         </Button>
@@ -304,9 +285,7 @@ const Detail = ({ data }: { data: { projects: IProjectData[]; blogs: IBlogData[]
             <PageButton variants={hoverTargetBar} animate="animate" whileHover={"hover"}>
               <Link
                 href={{
-                  pathname: `/project/${sorted[Number(ind) - 1 - 1]?.name}/${
-                    sorted[Number(ind) - 1 - 1]?.index
-                  }`,
+                  pathname: `/project/${sorted[Number(ind) - 1 - 1]?.name}/${sorted[Number(ind) - 1 - 1]?.index}`,
                   query: {
                     title: sorted[Number(ind) - 1 - 1]?.name,
                     index: sorted[Number(ind) - 1 - 1]?.index,
@@ -333,9 +312,7 @@ const Detail = ({ data }: { data: { projects: IProjectData[]; blogs: IBlogData[]
             <NextButton variants={hoverTargetBar} animate="animate" whileHover={"hover"}>
               <Link
                 href={{
-                  pathname: `/project/${sorted[Number(ind) - 1 + 1]?.name}/${
-                    sorted[Number(ind) - 1 + 1]?.index
-                  }`,
+                  pathname: `/project/${sorted[Number(ind) - 1 + 1]?.name}/${sorted[Number(ind) - 1 + 1]?.index}`,
                   query: {
                     title: sorted[Number(ind) - 1 + 1]?.name,
                     index: sorted[Number(ind) - 1 + 1]?.index,
@@ -384,7 +361,6 @@ const DescImageContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  /* box-shadow: 2px 25px 40px 0 rgba(0, 0, 0, 0.15); */
   @media (max-width: 1080px) {
     flex-direction: column;
     align-items: flex-start;
@@ -526,6 +502,7 @@ const WhiteButton = styled(motion.div)`
   border-radius: 100px;
   padding: 8px 16px;
   margin-top: 15px;
+  margin-right: 10px;
 `;
 
 const TitleRow = styled.div`

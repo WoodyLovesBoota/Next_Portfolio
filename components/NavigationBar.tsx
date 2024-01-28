@@ -50,19 +50,11 @@ const NavigationBar = ({
         setIsnow(1);
       } else if (
         scrollY > mainRef.current?.scrollHeight + serviceRef.current.scrollHeight - 200 &&
-        scrollY <
-          mainRef.current?.scrollHeight +
-            portFolioRef.current.scrollHeight +
-            serviceRef.current.scrollHeight -
-            200
+        scrollY < mainRef.current?.scrollHeight + portFolioRef.current.scrollHeight + serviceRef.current.scrollHeight - 200
       ) {
         setIsnow(2);
       } else if (
-        scrollY >
-          mainRef.current?.scrollHeight +
-            portFolioRef.current.scrollHeight +
-            serviceRef.current.scrollHeight -
-            200 &&
+        scrollY > mainRef.current?.scrollHeight + portFolioRef.current.scrollHeight + serviceRef.current.scrollHeight - 200 &&
         scrollY <
           mainRef.current?.scrollHeight +
             portFolioRef.current.scrollHeight +
@@ -87,13 +79,7 @@ const NavigationBar = ({
   return (
     <Wrapper istop={(scrollY === 0).toString()}>
       <Logo onClick={onMainClick}>
-        <motion.svg
-          width="73"
-          height="20"
-          viewBox="0 0 73 20"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
+        <motion.svg width="73" height="20" viewBox="0 0 73 20" fill="none" xmlns="http://www.w3.org/2000/svg">
           <motion.path
             initial={{ pathLength: 0, fill: "rgba(0,0,0,0)" }}
             animate={{ pathLength: 1, fill: "rgba(0,0,0,1)", transition: { duration: 4 } }}
@@ -125,12 +111,7 @@ const NavigationBar = ({
         </motion.svg>
       </Logo>
       <Contents>
-        <Content
-          variants={hoverTargetBar}
-          animate="animate"
-          whileHover={"hover"}
-          onClick={onServiceClick}
-        >
+        <Content variants={hoverTargetBar} animate="animate" whileHover={"hover"} onClick={onServiceClick}>
           <Ment variants={hoverOverVar}>
             INFO
             {isnow === 1 && <UnderBar variants={underVar} initial="initial" animate="animate" />}
@@ -140,12 +121,7 @@ const NavigationBar = ({
             {isnow === 1 && <UnderBar variants={underVar} initial="initial" animate="animate" />}
           </Hidden>
         </Content>
-        <Content
-          variants={hoverTargetBar}
-          animate="animate"
-          whileHover={"hover"}
-          onClick={onPortfolioClick}
-        >
+        <Content variants={hoverTargetBar} animate="animate" whileHover={"hover"} onClick={onPortfolioClick}>
           <Ment variants={hoverOverVar}>
             PORTFOLIO
             {isnow === 2 && <UnderBar variants={underVar} initial="initial" animate="animate" />}
@@ -155,12 +131,7 @@ const NavigationBar = ({
             {isnow === 2 && <UnderBar variants={underVar} initial="initial" animate="animate" />}
           </Hidden>
         </Content>
-        <Content
-          variants={hoverTargetBar}
-          animate="animate"
-          whileHover={"hover"}
-          onClick={onBlogClick}
-        >
+        <Content variants={hoverTargetBar} animate="animate" whileHover={"hover"} onClick={onBlogClick}>
           <Ment variants={hoverOverVar}>
             BLOG
             {isnow === 3 && <UnderBar variants={underVar} initial="initial" animate="animate" />}
@@ -170,12 +141,7 @@ const NavigationBar = ({
             {isnow === 3 && <UnderBar variants={underVar} initial="initial" animate="animate" />}
           </Hidden>
         </Content>
-        <Content
-          variants={hoverTargetBar}
-          animate="animate"
-          whileHover={"hover"}
-          onClick={onContactClick}
-        >
+        <Content variants={hoverTargetBar} animate="animate" whileHover={"hover"} onClick={onContactClick}>
           <Ment variants={hoverOverVar}>
             CONTACT
             {isnow === 4 && <UnderBar variants={underVar} initial="initial" animate="animate" />}
@@ -249,8 +215,7 @@ const Wrapper = styled.div<{ istop: string }>`
   background-color: white;
   top: 0;
   z-index: 105;
-  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.03), 0px 1px 1px 0px rgba(0, 0, 0, 0.01),
-    0px 0px 50px 0px rgba(0, 0, 0, 0.07);
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.03), 0px 1px 1px 0px rgba(0, 0, 0, 0.01), 0px 0px 50px 0px rgba(0, 0, 0, 0.07);
   transition: padding 0.3s ease-in-out;
   background-color: white;
   @media (max-width: 745px) {

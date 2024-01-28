@@ -1,11 +1,4 @@
-import Document, {
-  DocumentContext,
-  DocumentInitialProps,
-  Html,
-  Head,
-  Main,
-  NextScript,
-} from "next/document";
+import Document, { DocumentContext, DocumentInitialProps, Html, Head, Main, NextScript } from "next/document";
 import { ServerStyleSheet } from "styled-components";
 
 export default class MyDocument extends Document {
@@ -41,10 +34,7 @@ export default class MyDocument extends Document {
           <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
           <link href="https://fonts.cdnfonts.com/css/helvetica-neue-5" rel="stylesheet" />
           <link href="https://fonts.googleapis.com/css?family=Archivo Black" rel="stylesheet" />
-          <link
-            href="https://cdn.jsdelivr.net/gh/sunn-us/SUIT/fonts/static/woff2/SUIT.css"
-            rel="stylesheet"
-          />
+          <link href="https://cdn.jsdelivr.net/gh/sunn-us/SUIT/fonts/static/woff2/SUIT.css" rel="stylesheet" />
           <link rel="icon" href="/Group.svg" />
         </Head>
         <body>

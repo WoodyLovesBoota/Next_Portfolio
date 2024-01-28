@@ -202,11 +202,7 @@ const Projects = ({ projects }: { projects: IProjectData[] }) => {
                             {project.name.split("").map((char, ind) => {
                               return (
                                 <NameSpanL
-                                  isvisible={
-                                    index === 1
-                                      ? isProjectTwoIn.toString()
-                                      : isProjectFourIn.toString()
-                                  }
+                                  isvisible={index === 1 ? isProjectTwoIn.toString() : isProjectFourIn.toString()}
                                   index={ind}
                                   key={ind}
                                 >
@@ -215,9 +211,7 @@ const Projects = ({ projects }: { projects: IProjectData[] }) => {
                               );
                             })}
                           </NameBox>
-                          <ProjectDetail>
-                            {isEng ? project.subtitle : project.subtitleKor}
-                          </ProjectDetail>
+                          <ProjectDetail>{isEng ? project.subtitle : project.subtitleKor}</ProjectDetail>
                         </MentionR>
                       </ProjectTitleL>
                     </Link>
@@ -313,11 +307,7 @@ const Projects = ({ projects }: { projects: IProjectData[] }) => {
                             {project.name.split("").map((char, ind) => {
                               return (
                                 <NameSpanR
-                                  isvisible={
-                                    index === 0
-                                      ? isProjectOneIn.toString()
-                                      : isProjectThreeIn.toString()
-                                  }
+                                  isvisible={index === 0 ? isProjectOneIn.toString() : isProjectThreeIn.toString()}
                                   index={ind}
                                   key={ind}
                                 >
@@ -326,9 +316,7 @@ const Projects = ({ projects }: { projects: IProjectData[] }) => {
                               );
                             })}
                           </NameBox>
-                          <ProjectDetailR>
-                            {isEng ? project.subtitle : project.subtitleKor}
-                          </ProjectDetailR>
+                          <ProjectDetailR>{isEng ? project.subtitle : project.subtitleKor}</ProjectDetailR>
                         </Mention>
                       </ProjectTitleR>
                     </Link>

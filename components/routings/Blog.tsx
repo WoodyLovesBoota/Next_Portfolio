@@ -94,12 +94,7 @@ const Blog = ({ blogs }: { blogs: IBlogData[] }) => {
             sorted.slice(0, 6).map((blog) => (
               <BlogBox key={blog.title}>
                 <Link href={blog.link} target="_blank">
-                  <BlogPhoto
-                    bgphoto={blog.image}
-                    variants={normalVar}
-                    animate="animate"
-                    whileHover={"hover"}
-                  />
+                  <BlogPhoto bgphoto={blog.image} variants={normalVar} animate="animate" whileHover={"hover"} />
                   <BlogContent>
                     <BlogTitle>{isEng ? blog.titleEng : blog.title}</BlogTitle>
                     <BlogDate>
